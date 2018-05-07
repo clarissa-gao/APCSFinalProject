@@ -16,7 +16,7 @@ public class DrawingSurface extends PApplet {
 	private Rectangle screenRect;
 	private Grid g;
 
-//	private Mario mario;
+	private Character chara;
 	private ArrayList<Shape> obstacles;
 
 	private ArrayList<Integer> keys;
@@ -32,9 +32,9 @@ public class DrawingSurface extends PApplet {
 	}
 
 
-//	public void spawnNewMario() {
-//		mario = new Mario(assets.get(0), DRAWING_WIDTH/2-Mario.MARIO_WIDTH/2,50);
-//	}
+	public void spawnNewChar() {
+		chara = new Character(assets.get(0), DRAWING_WIDTH/2-Character.CHARACTER_WIDTH/2,50);
+	}
 	
 	public void runMe() {
 		runSketch();
@@ -44,9 +44,9 @@ public class DrawingSurface extends PApplet {
 	// execute once when the program begins
 	public void setup() {
 		//size(0,0,PApplet.P3D);
-		assets.add(loadImage("mario.png"));
+		assets.add(loadImage("pokepepe.png"));
 		
-		//spawnNewMario();
+		spawnNewChar();
 	}
 
 	// The statements in draw() are executed until the 
