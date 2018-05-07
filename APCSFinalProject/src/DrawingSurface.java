@@ -15,8 +15,9 @@ public class DrawingSurface extends PApplet {
 
 	private Rectangle screenRect;
 	private Grid g;
+	private PImage image;
 
-	private Character chara;
+//	private Mario mario;
 	private ArrayList<Shape> obstacles;
 
 	private ArrayList<Integer> keys;
@@ -29,12 +30,13 @@ public class DrawingSurface extends PApplet {
 		keys = new ArrayList<Integer>();
 		screenRect = new Rectangle(0,0,DRAWING_WIDTH,DRAWING_HEIGHT);
 		g = new Grid();
+		//image = this.loadImage("forest.png");
 	}
 
 
-	public void spawnNewChar() {
-		chara = new Character(assets.get(0), DRAWING_WIDTH/2-Character.CHARACTER_WIDTH/2,50);
-	}
+//	public void spawnNewMario() {
+//		mario = new Mario(assets.get(0), DRAWING_WIDTH/2-Mario.MARIO_WIDTH/2,50);
+//	}
 	
 	public void runMe() {
 		runSketch();
@@ -44,9 +46,9 @@ public class DrawingSurface extends PApplet {
 	// execute once when the program begins
 	public void setup() {
 		//size(0,0,PApplet.P3D);
-		assets.add(loadImage("pokepepe.png"));
+		assets.add(loadImage("mario.png"));
 		
-		spawnNewChar();
+		//spawnNewMario();
 	}
 
 	// The statements in draw() are executed until the 
@@ -57,7 +59,7 @@ public class DrawingSurface extends PApplet {
 
 		// drawing stuff
 
-		background(255);   
+		background(255); 
 
 		pushMatrix();
 
@@ -65,12 +67,12 @@ public class DrawingSurface extends PApplet {
 		float ratioY = (float)height/DRAWING_HEIGHT;
 
 		scale(ratioX, ratioY);
-		g.draw(this, 50, 50, 500, 500);
+		g.draw(this, 0, 0, 570, 600);
 		this.stroke(0);
 		this.fill(255);
-		this.rect(575, 350, 200, 200);
+		this.rect(585, 350, 200, 200);
 		this.fill(0);
-		this.text("Items Collected:", 615, 375);
+		this.text("Items Collected:", 625, 375);
 		
 		popMatrix();
 

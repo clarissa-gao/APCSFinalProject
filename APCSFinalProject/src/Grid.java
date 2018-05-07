@@ -11,22 +11,13 @@ public class Grid
 {
 	private int [][] grid;
 	// 0 = empty, 1 = player
-	private boolean [][] occupied;
 	private int row, column, playerX, playerY;
 
 	// Constructs an empty grid
 	public Grid() 
 	{
-		row = 20;
-		column = 20;
-		occupied = new boolean [column][row];
-		for (int i = 0; i < occupied.length; i++)
-		{
-			for (int a = 0; a < occupied[0].length; a++)
-			{
-				occupied [i][a] = false;
-			}
-		}
+		row = 35;
+		column = 35;
 		grid = new int [column][row];
 		for (int i = 0; i < grid.length; i++)
 		{
@@ -38,7 +29,6 @@ public class Grid
 					grid[i][a] = 1;
 					playerX = i;
 					playerY = a;
-					occupied[i][a] = true;
 				}
 			}
 		}
