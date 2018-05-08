@@ -92,6 +92,8 @@ public class DrawingSurface extends PApplet {
 		{
 			
 		}
+		
+		if (isPresed(KeyEvent.VK_DOWN) )
 			
 	}
 
