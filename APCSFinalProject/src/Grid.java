@@ -11,28 +11,55 @@ public class Grid
 {
 	private int [][] grid;
 	// 0 = empty, 1 = player
-	private int row, column, playerX, playerY;
+	private int row, column;
 	private Character player;
+	private float cellWidth, cellHeight, playerX, playerY;
 
 	// Constructs an empty grid
 	public Grid() 
 	{
-		row = 35;
-		column = 35;
+		row = 25;
+		column = 25;
 		grid = new int [column][row];
 		for (int i = 0; i < grid.length; i++)
 		{
 			for (int a = 0; a < grid[0].length; a++)
 			{
 				grid [i][a] = 0;
-				if (i == column-1 && a == row/2)
-				{
-					grid[i][a] = 1;
-					playerX = i;
-					playerY = a;
-				}
 			}
 		}
+		playerX = (int)(column/2 * 24)-25;
+		playerY = (int)((row-1)*22.8)+10;
+	}
+	
+	public int getRow()
+	{
+		return row;
+	}
+	
+	public int getColumn()
+	{
+		return column;
+	}
+	
+	public void setPlayerX(float x)
+	{
+		playerX = x;
+	}
+	
+	public float getPlayerX()
+	{
+		return playerX;
+	}
+	
+	public void setPlayerY(float y)
+	{
+		playerY = y;
+	}
+	
+	public float getPlayerY()
+	{
+		return playerY;
 	}
 	
 	/**
@@ -45,12 +72,9 @@ public class Grid
 	 * @param height The pixel height of the grid drawing.
 	 */
 	public void draw(PApplet marker, float x, float y, float width, float height) 
-	{
-		player = new Character(marker.loadImage("pokepepe.png"), row/2, column-1);
-
-		float cellWidth = width/grid.length;
-		float cellHeight = height/grid[0].length;
-		
+	{	
+		cellWidth = width/grid.length; //24
+		cellHeight = height/grid[0].length; //22.8
 		//marker.background(255);
 		
 		marker.stroke(0);
@@ -73,6 +97,19 @@ public class Grid
 				}
 			}
 		}
+		player = new Character(marker.loadImage("mouse.png"), (int)playerX, (int)playerY);
+		grid[row-1][column/2] = 1;
+		player.draw(marker);
+	}
+	
+	public float getCellWidth()
+	{
+		return cellWidth;
+	}
+	
+	public float getCellHeight()
+	{
+		return cellHeight;
 	}
 
 }

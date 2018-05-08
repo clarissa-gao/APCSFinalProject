@@ -16,6 +16,7 @@ public class DrawingSurface extends PApplet {
 	private Rectangle screenRect;
 	private Grid g;
 	private PImage image;
+	private Character player;
 
 //	private Mario mario;
 	private ArrayList<Shape> obstacles;
@@ -31,6 +32,7 @@ public class DrawingSurface extends PApplet {
 		screenRect = new Rectangle(0,0,DRAWING_WIDTH,DRAWING_HEIGHT);
 		g = new Grid();
 		//image = this.loadImage("forest.png");
+
 	}
 
 
@@ -41,14 +43,14 @@ public class DrawingSurface extends PApplet {
 	public void runMe() {
 		runSketch();
 	}
-
+	
 	// The statements in the setup() function 
 	// execute once when the program begins
 	public void setup() {
 		//size(0,0,PApplet.P3D);
-		assets.add(loadImage("mario.png"));
-		
+		//assets.add(loadImage("mario.png"));
 		//spawnNewMario();
+		assets.add(loadImage("mouse.png"));
 	}
 
 	// The statements in draw() are executed until the 
@@ -75,31 +77,30 @@ public class DrawingSurface extends PApplet {
 		this.text("Items Collected:", 625, 375);
 		
 		popMatrix();
-
-
-		// modifying stuff
-		if (isPressed(KeyEvent.VK_LEFT))
-		{
-			
-		}
-			
-		if (isPressed(KeyEvent.VK_RIGHT))
-		{
-			
-		}
-			
-		if (isPressed(KeyEvent.VK_UP))
-		{
-			
-		}
-		
-		if (isPresed(KeyEvent.VK_DOWN) )
-			
 	}
 
 
 	public void keyPressed() {
 		keys.add(keyCode);
+		if (key == CODED)
+		{
+		    if (keyCode == RIGHT && g.getPlayerX() < g.getCellWidth()*(g.getColumn()-2)) 
+		    {	    	
+		    		g.setPlayerX(g.getPlayerX()+g.getCellWidth());
+			}
+		    else if (keyCode == LEFT && g.getPlayerX() > 0)
+		    {
+		    		g.setPlayerX((g.getPlayerX()-g.getCellWidth()));
+		    }
+		    else if (keyCode == UP && g.getPlayerY() > 0)
+		    {
+		    		g.setPlayerY((g.getPlayerY()-g.getCellHeight()));
+		    }
+		    else if (keyCode == DOWN && g.getPlayerY() < g.getCellHeight()*(g.getRow()-2))
+		    {
+		    		g.setPlayerY((g.getPlayerY()+g.getCellHeight()));
+		    }
+		}	
 	}
 
 	public void keyReleased() {

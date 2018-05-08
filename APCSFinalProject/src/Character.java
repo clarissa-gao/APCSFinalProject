@@ -7,8 +7,8 @@ import processing.core.PImage;
 
 public class Character extends Sprite {
 
-	public static final int CHARACTER_WIDTH = 40;
-	public static final int CHARACTER_HEIGHT = 60;
+	public static final int CHARACTER_WIDTH = 45;
+	public static final int CHARACTER_HEIGHT = 45;
 
 	public Character (PImage img, int x, int y) //x and y can be the grid space
 	{
