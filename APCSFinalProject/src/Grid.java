@@ -12,6 +12,7 @@ public class Grid
 	private int [][] grid;
 	// 0 = empty, 1 = player
 	private int row, column, playerX, playerY;
+	private Character player;
 
 	// Constructs an empty grid
 	public Grid() 
@@ -45,6 +46,7 @@ public class Grid
 	 */
 	public void draw(PApplet marker, float x, float y, float width, float height) 
 	{
+		player = new Character(marker.loadImage("pokepepe.png"), row/2, column-1);
 
 		float cellWidth = width/grid.length;
 		float cellHeight = height/grid[0].length;
