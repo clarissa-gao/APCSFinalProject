@@ -12,7 +12,7 @@ public class Grid
 {
 	private int [][] grid;
 	// 0 = empty, 1 = player, 2 = destination, -1 = obstruction
-	private int row, column;
+	private int row, column, pgLocX, pgLocY; //player grid loc
 	private Character player;
 	private ArrayList<Obstruction> obstructions;
 	private float cellWidth, cellHeight, playerX, playerY;
@@ -36,7 +36,14 @@ public class Grid
 		grid[0][ran] = 2;
 		playerX = (int)(column/2 * 24)-25;
 		playerY = (int)((row-1)*22.8)+10;
-		for (int i=0; i<5; i++) {
+		pgLocX = column/2;
+		pgLocY = row-1;
+		
+		System.out.println(pgLocX);
+		System.out.println(pgLocY);
+		
+		for (int i=0; i<5; i++) 
+		{
 			int rx = (int)(Math.random()*25);
 			int ry = (int)(Math.random()*25);
 			if (grid[rx][ry]==0) 
@@ -61,9 +68,32 @@ public class Grid
 		playerX = x;
 	}
 	
+	public int getpgLocX ()
+	{
+		return pgLocX;
+	}
+	
+	public int getpgLocY()
+	{
+		return pgLocY;
+	}
+	
+	public void setpgLoxY(int y)
+	{
+		pgLocY = y;
+	}
+	
+	public void setpgLoxX(int x)
+	{
+		pgLocX = x;
+	}
+	
 	public float getPlayerX()
 	{
-		return playerX;
+		if (playerX <= cellWidth*25)
+			return playerX;
+		else
+			return cellWidth*25;
 	}
 	
 	public void setPlayerY(float y)
@@ -73,7 +103,18 @@ public class Grid
 	
 	public float getPlayerY()
 	{
-		return playerY;
+		if (playerY <= cellHeight*25)
+			return playerY;
+		else
+			return cellHeight*25;
+	}
+	
+	public int getStatus (int x, int y)
+	{
+		if (x>=0 && x < row && y >=0 && y < column)
+			return grid[y][x];
+		else
+			return 10;
 	}
 	
 	/**
@@ -124,8 +165,7 @@ public class Grid
 		//	o.draw(marker);
 		//}
 		player = new Character(marker.loadImage("mouse.png"), (int)playerX, (int)playerY);
-		grid[row-1][column/2] = 1;
-		player.draw(marker);
+		player.draw(marker);		
 	}
 	
 	public float getCellWidth()

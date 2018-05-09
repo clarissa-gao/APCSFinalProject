@@ -21,6 +21,7 @@ public class Panel extends JPanel implements ActionListener
 	private static Panel openingScreen, instructionsScreen;
 	private static JFrame initial, w, i;
 	private JLabel name;
+	private static DrawingSurface drawing = new DrawingSurface();
 	
 	public Panel()
 	{
@@ -97,7 +98,7 @@ public class Panel extends JPanel implements ActionListener
 	
 	public static void main(String[] args)
 	{
-		DrawingSurface drawing = new DrawingSurface();
+		//DrawingSurface drawing = new DrawingSurface();
 		PApplet.runSketch(new String[]{""}, drawing);
 		PSurfaceAWT surf = (PSurfaceAWT) drawing.getSurface();
 		PSurfaceAWT.SmoothCanvas canvas = (PSurfaceAWT.SmoothCanvas) surf.getNative();

@@ -17,6 +17,7 @@ public class DrawingSurface extends PApplet {
 	private Grid g;
 	private PImage image;
 	private Character player;
+	private boolean canMove;
 
 //	private Mario mario;
 	private ArrayList<Shape> obstacles;
@@ -31,6 +32,7 @@ public class DrawingSurface extends PApplet {
 		keys = new ArrayList<Integer>();
 		screenRect = new Rectangle(0,0,DRAWING_WIDTH,DRAWING_HEIGHT);
 		g = new Grid();
+		canMove = true;
 		//image = this.loadImage("forest.png");
 
 	}
@@ -76,29 +78,81 @@ public class DrawingSurface extends PApplet {
 		this.fill(0);
 		this.text("Items Collected:", 625, 375);
 		
+		int px = g.getpgLocX();
+		int py = g.getpgLocY();
+		
+		int status = g.getStatus(px, py);
+		if (status == 2)
+		{
+			canMove = false;
+			this.fill(200);
+			this.stroke(200);
+			this.rect(200, 200, 400, 225);
+			this.fill(0);
+			this.textSize(75);
+			this.text("YOU WIN!", 225, 275);
+			this.fill(255, 0, 0);
+			this.rect(300, 300, 200, 100);
+			this.fill(0);
+			this.textSize(40);
+			this.text("QUIT", 350, 360);
+			if (this.mousePressed)
+			{
+				if (mouseX >= 300 && mouseX <= 500 && mouseY >= 300 && mouseY <= 400)
+				{
+					System.exit(0);
+				}
+			}
+		}
+		else if (status == -1)
+		{
+			canMove = false;
+			this.fill(200);
+			this.stroke(200);
+			this.rect(200, 200, 400, 225);
+			this.fill(0);
+			this.textSize(75);
+			this.text("YOU LOSE!", 220, 275);
+			this.fill(255, 0, 0);
+			this.rect(300, 300, 200, 100);
+			this.fill(0);
+			this.textSize(40);
+			this.text("QUIT", 350, 360);
+			if (this.mousePressed)
+			{
+				if (mouseX >= 300 && mouseX <= 500 && mouseY >= 300 && mouseY <= 400)
+				{
+					System.exit(0);
+				}
+			}
+		}
+		
 		popMatrix();
 	}
 
-
 	public void keyPressed() {
 		keys.add(keyCode);
-		if (key == CODED)
+		if (key == CODED && canMove == true)
 		{
-		    if (keyCode == RIGHT && g.getPlayerX() < g.getCellWidth()*(g.getColumn()-2)) 
-		    {	    	
+		    if (keyCode == RIGHT && g.getpgLocX()<g.getColumn()-1) 
+		    {	 
 		    		g.setPlayerX(g.getPlayerX()+g.getCellWidth());
+		    		g.setpgLoxX(g.getpgLocX()+1);
 			}
-		    else if (keyCode == LEFT && g.getPlayerX() > 0)
+		    else if (keyCode == LEFT && g.getpgLocX()>0)
 		    {
 		    		g.setPlayerX((g.getPlayerX()-g.getCellWidth()));
+		    		g.setpgLoxX(g.getpgLocX()-1);
 		    }
-		    else if (keyCode == UP && g.getPlayerY() > 0)
+		    else if (keyCode == UP && g.getpgLocY() > 0)
 		    {
 		    		g.setPlayerY((g.getPlayerY()-g.getCellHeight()));
+		    		g.setpgLoxY(g.getpgLocY()-1);
 		    }
-		    else if (keyCode == DOWN && g.getPlayerY() < g.getCellHeight()*(g.getRow()-2))
+		    else if (keyCode == DOWN && g.getpgLocY()<g.getRow()-1)
 		    {
 		    		g.setPlayerY((g.getPlayerY()+g.getCellHeight()));
+		    		g.setpgLoxY(g.getpgLocY()+1);
 		    }
 		}	
 	}
@@ -111,7 +165,5 @@ public class DrawingSurface extends PApplet {
 	public boolean isPressed(Integer code) {
 		return keys.contains(code);
 	}
-
-
 }
 
