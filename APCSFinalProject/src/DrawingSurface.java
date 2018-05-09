@@ -18,6 +18,7 @@ public class DrawingSurface extends PApplet {
 	private PImage image;
 	private Character player;
 	private boolean canMove;
+	private long startTime, endTime, counter;
 
 //	private Mario mario;
 	private ArrayList<Shape> obstacles;
@@ -34,7 +35,9 @@ public class DrawingSurface extends PApplet {
 		g = new Grid();
 		canMove = true;
 		//image = this.loadImage("forest.png");
-
+		startTime = this.second();
+		counter = 0;
+		
 	}
 
 
@@ -59,8 +62,8 @@ public class DrawingSurface extends PApplet {
 	// program is stopped. Each statement is executed in 
 	// sequence and after the last line is read, the first 
 	// line is executed again.
-	public void draw() {
-
+	public void draw() 
+	{
 		// drawing stuff
 
 		background(255); 
@@ -112,7 +115,7 @@ public class DrawingSurface extends PApplet {
 			this.rect(200, 200, 400, 225);
 			this.fill(0);
 			this.textSize(75);
-			this.text("YOU LOSE!", 220, 275);
+			this.text("YOU LOSE!", 210, 275);
 			this.fill(255, 0, 0);
 			this.rect(300, 300, 200, 100);
 			this.fill(0);
