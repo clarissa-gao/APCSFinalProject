@@ -35,8 +35,8 @@ public class Destructive extends Collectable{
 	 * @param PRO_HEIGHT - height of destructive object
 	 * @return png image of an explosion
 	 */
-	public PImage destroy(ArrayList<Obstruction> obstruction, int PRO_WIDTH, int PRO_HEIGHT) {
-		obstruction.remove(indexObstruction(obstruction, PRO_WIDTH, PRO_HEIGHT));
-		return explosion;
-	}
+//	public PImage destroy(ArrayList<Obstruction> obstruction, int PRO_WIDTH, int PRO_HEIGHT) {
+//		obstruction.remove(indexObstruction(obstruction, PRO_WIDTH, PRO_HEIGHT));
+//		return explosion;
+//	}
 }
