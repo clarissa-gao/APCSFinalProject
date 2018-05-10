@@ -20,6 +20,7 @@ public class Character extends Sprite {
 	public static final int CHARACTER_WIDTH = 45;
 	public static final int CHARACTER_HEIGHT = 45;
 	public int collectablesCollected;
+	
 	/**
 	 * Constructs a character object
 	 * @param img - png image that represents the Character object
