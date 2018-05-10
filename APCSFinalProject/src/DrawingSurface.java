@@ -8,6 +8,13 @@ import java.util.ArrayList;
 import processing.core.PApplet;
 import processing.core.PImage;
 
+/**
+ * 
+ * @author Alex Wang
+ * Coded May 10th, 2018
+ * 
+ * The surface of the actual game. This surface has a grid, and also illustrates other data that is part of the game (ex: the items that have been collected)
+ */
 public class DrawingSurface extends PApplet {
 
 	public static final int DRAWING_WIDTH = 800;
@@ -27,6 +34,9 @@ public class DrawingSurface extends PApplet {
 	
 	private ArrayList<PImage> assets;
 
+	/**
+	 * Constructs a Drawing Surface Class where the grid, the grids components, and other data is drawn on the screen.
+	 */
 	public DrawingSurface() {
 		super();
 		assets = new ArrayList<PImage>();

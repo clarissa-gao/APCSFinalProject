@@ -9,6 +9,13 @@ import java.util.Scanner;
 import processing.core.PApplet;
 import processing.core.PImage;
 
+
+/**
+ * @author Alex Wang
+ * Coded May 10, 2018
+ * 
+ * This class represents the grid of the program. The class has a player (which the user controls), obstructions (which the player must avoid or else he/she will lose the game), collectables (the yellow rectangles that do not do anything yet), and a final location (represented by the treasure chest)
+ */
 public class Grid
 {
 	private int [][] grid;
@@ -23,6 +30,9 @@ public class Grid
 
 	// Constructs an grid with the character at a predetermined starting location, obstructions and
 	// collectables placed at random locations, and a randomly generated destination
+	/**
+	 * Constructs a 25 by 25 space grid
+	 */
 	public Grid() 
 	{
 		row = 25;
