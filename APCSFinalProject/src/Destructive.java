@@ -13,8 +13,8 @@ public class Destructive extends Collectable{
 		super(img, x, y);
 	}
 
-	public PImage destroy(ArrayList<Obstruction> obstruction, int PRO_WIDTH, int PRO_HEIGHT) {
-		obstruction.remove(indexObstruction(obstruction, PRO_WIDTH, PRO_HEIGHT));
-		return explosion;
-	}
+//	public PImage destroy(ArrayList<Obstruction> obstruction, int PRO_WIDTH, int PRO_HEIGHT) {
+//		obstruction.remove(indexObstruction(obstruction, PRO_WIDTH, PRO_HEIGHT));
+//		return explosion;
+//	}
 }

@@ -9,10 +9,12 @@ public class Character extends Sprite {
 
 	public static final int CHARACTER_WIDTH = 45;
 	public static final int CHARACTER_HEIGHT = 45;
+	public int collectablesCollected;
 
 	public Character (PImage img, int x, int y) //x and y can be the grid space
 	{
 		super(img, x, y, CHARACTER_WIDTH, CHARACTER_HEIGHT);
+		collectablesCollected = 0;
 	}
 
 	// METHODS
@@ -22,6 +24,11 @@ public class Character extends Sprite {
 
 	public void jump() {
 		super.moveByAmount(0, -20);
+	}
+	
+	public void incrementNumCollectables()
+	{
+		collectablesCollected++;
 	}
 
 	public void act(ArrayList<Shape> obstacles) {

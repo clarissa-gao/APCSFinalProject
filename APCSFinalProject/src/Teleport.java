@@ -13,11 +13,13 @@ public class Teleport extends Collectable{
 		super(img, x, y);
 	}
 
-	public Point2D.Double teleport(ArrayList<Obstruction> obstruction, int PRO_WIDTH, int PRO_HEIGHT) {
-		for (Obstruction o: obstruction) {
-			if (!o.intersects(x, y, width, height)) {
-				return new Point2D.Double(x,y);
-			}
-	}
+//	public Point2D.Double teleport(ArrayList<Obstruction> obstruction, int PRO_WIDTH, int PRO_HEIGHT) {
+//		for (Obstruction o: obstruction) {
+//			if (!o.intersects(x, y, width, height)) {
+//				return new Point2D.Double(x,y);
+//			}
+//	}
 
 }
+	
+

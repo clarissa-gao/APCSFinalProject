@@ -9,14 +9,15 @@ import java.util.Scanner;
 import processing.core.PApplet;
 import processing.core.PImage;
 
-public class Grid 
+public class Grid
 {
 	private int [][] grid;
 	private int [][] pictureOrganization;
-	// 0 = empty, 1 = player, 2 = destination, -1 = obstruction
+	// 0 = empty, 1 = player, 2 = destination, -1 = obstruction, 3 = collectable
 	private int row, column, pgLocX, pgLocY; //player grid loc
 	private Character player;
 	private ArrayList<Obstruction> obstructions;
+	private Collectable[] collectables;
 	private float cellWidth, cellHeight, playerX, playerY;
 	private long counter;
 
@@ -58,6 +59,19 @@ public class Grid
 			else 
 				i--;
 		}
+		collectables = new Collectable[6];//6 collectables??
+		for(int i = 0; i < 6; i++)
+		{
+			int x = (int)(Math.random()*25);
+			int y = (int)(Math.random()*25);
+			if (grid[x][y]==0) 
+			{
+				grid[x][y]=3;
+				//pictureOrganization[x][y] = (int)(Math.random()*2+1); 
+			}
+			else 
+				i--;
+		}
 	}
 	
 	public int getRow()
@@ -70,11 +84,6 @@ public class Grid
 		return column;
 	}
 	
-	public void setPlayerX(float x)
-	{
-		playerX = x;
-	}
-	
 	public int getpgLocX ()
 	{
 		return pgLocX;
@@ -85,6 +94,26 @@ public class Grid
 		return pgLocY;
 	}
 	
+	public float getPlayerX()
+	{
+		return playerX;
+	}
+	
+	public float getPlayerY()
+	{
+		return playerY;
+	}
+	
+	public void setPlayerX(float x)
+	{
+		playerX = x;
+	}
+	
+	public void setPlayerY(float y)
+	{
+		playerY = y;
+	}
+	
 	public void setpgLoxY(int y)
 	{
 		pgLocY = y;
@@ -93,27 +122,6 @@ public class Grid
 	public void setpgLoxX(int x)
 	{
 		pgLocX = x;
-	}
-	
-	public float getPlayerX()
-	{
-		if (playerX <= cellWidth*25)
-			return playerX;
-		else
-			return cellWidth*25;
-	}
-	
-	public void setPlayerY(float y)
-	{
-		playerY = y;
-	}
-	
-	public float getPlayerY()
-	{
-		if (playerY <= cellHeight*25)
-			return playerY;
-		else
-			return cellHeight*25;
 	}
 	
 	public int getStatus (int x, int y)
@@ -140,8 +148,7 @@ public class Grid
 		PImage finalLoc = marker.loadImage("treasurechest.png");
 		PImage obstruction1 = marker.loadImage("fire.png");
 		PImage obstruction2 = marker.loadImage("thorns.jpg");
-
-		
+				
 		cellWidth = width/grid.length; //24
 		cellHeight = height/grid[0].length; //22.8
 		//marker.background(255);
@@ -172,6 +179,11 @@ public class Grid
 						marker.image(obstruction2, j*cellWidth + x, i*cellHeight + y, cellWidth, cellHeight);
 					}
 				//	obstructions.add(new Rock(marker.loadImage("rock.png"), i, j));
+				}
+				if (grid[i][j] == 3)
+				{
+					marker.fill(255, 255, 0);
+					marker.rect(j*cellWidth + x, i*cellHeight + y, cellWidth, cellHeight);
 				}
 			}
 		}
