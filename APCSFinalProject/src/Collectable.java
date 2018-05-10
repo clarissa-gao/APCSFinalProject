@@ -12,7 +12,7 @@ import processing.core.PImage;
  *Collectable is the superclass for all collectable objects represented by a png image
  *that enables the character to collect it and have interactions with other objects with it.
  */
-public class Collectable extends GameObject {
+public class Collectable extends Sprite {
 
 	public static final int COLLECTABLE_WIDTH = 40;
 	public static final int COLLECTABLE_HEIGHT = 60;

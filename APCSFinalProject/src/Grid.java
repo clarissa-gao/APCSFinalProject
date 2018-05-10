@@ -9,7 +9,6 @@ import java.util.Scanner;
 import processing.core.PApplet;
 import processing.core.PImage;
 
-
 /**
  * @author Alex Wang
  * Coded May 10, 2018
@@ -64,7 +63,7 @@ public class Grid
 			if (grid[rx][ry]==0) 
 			{
 				grid[rx][ry]=-1;
-				pictureOrganization[rx][ry] = (int)(Math.random()*2+1); 
+				pictureOrganization[rx][ry] = (int)(Math.random()*2+1);
 			}
 			else 
 				i--;
@@ -192,7 +191,7 @@ public class Grid
 				}
 				if (grid[i][j] == 3)
 				{
-					marker.fill(255, 255, 0);
+					marker.fill(255, 124, 125);
 					marker.rect(j*cellWidth + x, i*cellHeight + y, cellWidth, cellHeight);
 				}
 			}
