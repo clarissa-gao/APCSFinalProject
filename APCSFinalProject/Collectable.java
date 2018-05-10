@@ -5,7 +5,7 @@ import java.util.*;
 
 import processing.core.PImage;
 
-public class Collectable extends Sprite {
+public class Collectable extends GameObject {
 
 	public static final int COLLECTABLE_WIDTH = 40;
 	public static final int COLLECTABLE_HEIGHT = 60;

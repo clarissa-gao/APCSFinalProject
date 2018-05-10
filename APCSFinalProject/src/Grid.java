@@ -159,11 +159,6 @@ public class Grid
 				marker.strokeWeight(1);
 				marker.stroke(150);
 				marker.rect(j*cellWidth + x, i*cellHeight + y, cellWidth, cellHeight);
-//				if (grid[i][j] == 1)
-//				{
-//					marker.fill(255, 0, 0);
-//					marker.rect(j*cellWidth + x, i*cellHeight + y, (float)(cellWidth*1.25), (float)(cellHeight*1.25));
-//				}
 				if (grid[i][j]==2) 
 				{
 					marker.image(finalLoc, j*cellWidth + x, i*cellHeight + y, cellWidth, cellHeight);
@@ -176,8 +171,6 @@ public class Grid
 					{
 						marker.image(obstruction2, j*cellWidth + x, i*cellHeight + y, cellWidth, cellHeight);
 					}
-//					marker.fill(0,255,0);
-//					marker.rect(j*cellWidth + x, i*cellHeight + y, cellWidth, cellHeight);
 				//	obstructions.add(new Rock(marker.loadImage("rock.png"), i, j));
 				}
 			}
