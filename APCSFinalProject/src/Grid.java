@@ -53,7 +53,7 @@ public class Grid
 			if (grid[rx][ry]==0) 
 			{
 				grid[rx][ry]=-1;
-				pictureOrganization[rx][ry] = (int)(Math.random()*2+1);
+				pictureOrganization[rx][ry] = (int)(Math.random()*2+1); 
 			}
 			else 
 				i--;
