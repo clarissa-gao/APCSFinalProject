@@ -18,6 +18,7 @@ public class Collectable extends Sprite {
 	public static final int COLLECTABLE_HEIGHT = 60;
 	private boolean collected;
 	private PImage image;
+	private int xLoc, yLoc;
 
 	/**
 	 * Constructs a Collectable object
@@ -28,6 +29,14 @@ public class Collectable extends Sprite {
 	public Collectable(PImage img, int x, int y) {
 		super(img, x, y, COLLECTABLE_WIDTH, COLLECTABLE_HEIGHT);
 		//boolean collected = collect;
+		collected = false;
+		xLoc = x;
+		yLoc = y;
+	}
+	
+	public void setStatus(boolean isCollected)
+	{
+		collected = isCollected;
 	}
 
 	/**
@@ -85,7 +94,7 @@ public class Collectable extends Sprite {
 	{
 		return image;
 	}
-
+	
 }
 
 

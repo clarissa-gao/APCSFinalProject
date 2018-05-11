@@ -19,7 +19,8 @@ public class Grid
 {
 	private int [][] grid;
 	private int [][] pictureOrganization;
-	// 0 = empty, 1 = player, 2 = destination, -1 = obstruction, 3 = collectable
+	
+	// 0 = empty, 2 = destination, -1 = obstruction, 3 = collectable
 	private int row, column, pgLocX, pgLocY; //player grid loc
 	private Character player;
 	private ArrayList<Obstruction> obstructions;
@@ -71,12 +72,13 @@ public class Grid
 		collectables = new Collectable[6];//6 collectables??
 		for(int i = 0; i < 6; i++)
 		{
+			
 			int x = (int)(Math.random()*25);
 			int y = (int)(Math.random()*25);
 			if (grid[x][y]==0) 
 			{
 				grid[x][y]=3;
-				//pictureOrganization[x][y] = (int)(Math.random()*2+1); 
+				
 			}
 			else 
 				i--;
@@ -153,10 +155,13 @@ public class Grid
 	public void draw(PApplet marker, float x, float y, float width, float height) 
 	{	
 		counter++;
+		int collectablesDrawn = 0;
 		
 		PImage finalLoc = marker.loadImage("treasurechest.png");
 		PImage obstruction1 = marker.loadImage("fire.png");
 		PImage obstruction2 = marker.loadImage("thorns.jpg");
+		PImage potion = marker.loadImage("potion.png");
+
 				
 		cellWidth = width/grid.length; //24
 		cellHeight = height/grid[0].length; //22.8
@@ -191,8 +196,8 @@ public class Grid
 				}
 				if (grid[i][j] == 3)
 				{
-					marker.fill(255, 124, 125);
-					marker.rect(j*cellWidth + x, i*cellHeight + y, cellWidth, cellHeight);
+					marker.image(potion, j*cellWidth + x, i*cellHeight + y, cellWidth, cellHeight);
+					//collectables[0].draw(marker);
 				}
 			}
 		}
@@ -200,7 +205,11 @@ public class Grid
 		//	o.draw(marker);
 		//}
 		player = new Character(marker.loadImage("mouse.png"), (int)playerX, (int)playerY);
-		player.draw(marker);		
+		player.draw(marker);	
+		if (grid[this.pgLocY][this.pgLocX]==3)
+		{
+			grid[this.pgLocY][this.pgLocX]=0;
+		}
 	}
 	
 	public float getCellWidth()
