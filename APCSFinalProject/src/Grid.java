@@ -20,8 +20,8 @@ public class Grid
 	private int [][] grid;
 	private int [][] pictureOrganization;
 	
-	// 0 = empty, 2 = destination, -1 = obstruction, 3 = collectable
-	private int row, column, pgLocX, pgLocY; //player grid loc
+	// 0 = empty, 2 = destination, -1 = obstruction, 3 = potion, 4 = shield
+	private int row, column, pgLocX, pgLocY, drawCollectX, drawCollectY; //player grid loc
 	private Character player;
 	private ArrayList<Obstruction> obstructions;
 	private Collectable[] collectables;
@@ -35,6 +35,8 @@ public class Grid
 	 */
 	public Grid() 
 	{
+		drawCollectX = 400;
+		drawCollectY = 250;
 		row = 25;
 		column = 25;
 		grid = new int [column][row];
@@ -67,21 +69,25 @@ public class Grid
 				pictureOrganization[rx][ry] = (int)(Math.random()*2+1);
 			}
 			else 
+			{
 				i--;
+			}
 		}
 		collectables = new Collectable[6];//6 collectables??
 		for(int i = 0; i < 6; i++)
-		{
-			
+		{	
 			int x = (int)(Math.random()*25);
 			int y = (int)(Math.random()*25);
 			if (grid[x][y]==0) 
 			{
-				grid[x][y]=3;
-				
+				int collectable = (int)(Math.random()*2);
+				grid[x][y]=collectable+3;
+				//System.out.println(collectable+3);
 			}
 			else 
+			{
 				i--;
+			}
 		}
 	}
 	
@@ -159,8 +165,9 @@ public class Grid
 		
 		PImage finalLoc = marker.loadImage("treasurechest.png");
 		PImage obstruction1 = marker.loadImage("fire.png");
-		PImage obstruction2 = marker.loadImage("thorns.jpg");
+		PImage hole = marker.loadImage("hole.png");
 		PImage potion = marker.loadImage("potion.png");
+		PImage shield = marker.loadImage("shield.jpg");
 
 				
 		cellWidth = width/grid.length; //24
@@ -190,13 +197,18 @@ public class Grid
 						marker.image(obstruction1, j*cellWidth + x, i*cellHeight + y, cellWidth, cellHeight);
 					else
 					{
-						marker.image(obstruction2, j*cellWidth + x, i*cellHeight + y, cellWidth, cellHeight);
+						marker.image(hole, j*cellWidth + x, i*cellHeight + y, cellWidth, cellHeight);
 					}
 				//	obstructions.add(new Rock(marker.loadImage("rock.png"), i, j));
 				}
 				if (grid[i][j] == 3)
 				{
 					marker.image(potion, j*cellWidth + x, i*cellHeight + y, cellWidth, cellHeight);
+					//collectables[0].draw(marker);
+				}
+				if (grid[i][j] == 4)
+				{
+					marker.image(shield, j*cellWidth + x, i*cellHeight + y, cellWidth, cellHeight);
 					//collectables[0].draw(marker);
 				}
 			}
@@ -207,6 +219,11 @@ public class Grid
 		player = new Character(marker.loadImage("mouse.png"), (int)playerX, (int)playerY);
 		player.draw(marker);	
 		if (grid[this.pgLocY][this.pgLocX]==3)
+		{
+			grid[this.pgLocY][this.pgLocX]=0;
+			marker.image(potion, drawCollectX, drawCollectY);
+		}
+		else if (grid[this.pgLocY][this.pgLocX]==4)
 		{
 			grid[this.pgLocY][this.pgLocX]=0;
 		}
