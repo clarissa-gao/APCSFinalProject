@@ -95,6 +95,7 @@ public class DrawingSurface extends PApplet {
 		int py = g.getpgLocY();
 		
 		int status = g.getStatus(px, py);
+		System.out.println(status);
 		if (status == 2)
 		{
 			canMove = false;

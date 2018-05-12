@@ -21,12 +21,13 @@ public class Grid
 	private int [][] pictureOrganization;
 	
 	// 0 = empty, 2 = destination, -1 = obstruction, 3 = potion, 4 = shield
-	private int row, column, pgLocX, pgLocY, drawCollectX, drawCollectY; //player grid loc
+	private int row, column, pgLocX, pgLocY, numObstructions; //player grid loc
 	private Character player;
 	private ArrayList<Obstruction> obstructions;
 	private Collectable[] collectables;
 	private float cellWidth, cellHeight, playerX, playerY;
-	private long counter;
+	private long counter, move;
+	private boolean obstructionsHaveMoved;
 
 	// Constructs an grid with the character at a predetermined starting location, obstructions and
 	// collectables placed at random locations, and a randomly generated destination
@@ -35,8 +36,8 @@ public class Grid
 	 */
 	public Grid() 
 	{
-		drawCollectX = 400;
-		drawCollectY = 250;
+		numObstructions=0;
+		obstructionsHaveMoved = false;
 		row = 25;
 		column = 25;
 		grid = new int [column][row];
@@ -65,8 +66,18 @@ public class Grid
 			int ry = (int)(Math.random()*25);
 			if (grid[rx][ry]==0) 
 			{
+				numObstructions++;
 				grid[rx][ry]=-1;
-				pictureOrganization[rx][ry] = (int)(Math.random()*2+1);
+//				if(ry!=0)
+//				{
+//					grid[rx][ry-1] = -1;
+//					numObstructions++;
+//				}
+//				if(ry!=column-1)
+//				{
+//					grid[rx][ry+1] = -1;
+//					numObstructions++;
+//				}
 			}
 			else 
 			{
@@ -161,14 +172,16 @@ public class Grid
 	public void draw(PApplet marker, float x, float y, float width, float height) 
 	{	
 		counter++;
-		int collectablesDrawn = 0;
+		if (counter%10 == 0)
+		{
+			move++;
+		}
 		
 		PImage finalLoc = marker.loadImage("treasurechest.png");
 		PImage obstruction1 = marker.loadImage("fire.png");
 		PImage hole = marker.loadImage("hole.png");
 		PImage potion = marker.loadImage("potion.png");
 		PImage shield = marker.loadImage("shield.jpg");
-
 				
 		cellWidth = width/grid.length; //24
 		cellHeight = height/grid[0].length; //22.8
@@ -179,6 +192,7 @@ public class Grid
 		marker.textSize(15);
 		
 		marker.stroke(0);
+		int obstructionsCount = 0;
 		for (int i = 0; i < grid[0].length; i++)
 		{
 			for (int j = 0; j < grid.length; j++)
@@ -193,35 +207,32 @@ public class Grid
 				}
 				if (grid[i][j]==-1) 
 				{
-					if (pictureOrganization[i][j] == 1)
-						marker.image(obstruction1, j*cellWidth + x, i*cellHeight + y, cellWidth, cellHeight);
+					if (j+move < 24)
+					{
+						marker.image(obstruction1, (j+move)*cellWidth + x, i*cellHeight + y, cellWidth, cellHeight);
+					}
 					else
 					{
-						marker.image(hole, j*cellWidth + x, i*cellHeight + y, cellWidth, cellHeight);
+						marker.image(obstruction1, (j)*cellWidth + x, i*cellHeight + y, cellWidth, cellHeight);
 					}
-				//	obstructions.add(new Rock(marker.loadImage("rock.png"), i, j));
 				}
 				if (grid[i][j] == 3)
 				{
 					marker.image(potion, j*cellWidth + x, i*cellHeight + y, cellWidth, cellHeight);
-					//collectables[0].draw(marker);
 				}
 				if (grid[i][j] == 4)
 				{
 					marker.image(shield, j*cellWidth + x, i*cellHeight + y, cellWidth, cellHeight);
-					//collectables[0].draw(marker);
 				}
 			}
 		}
-		//for (Obstruction o: obstructions) {
-		//	o.draw(marker);
-		//}
+
 		player = new Character(marker.loadImage("mouse.png"), (int)playerX, (int)playerY);
 		player.draw(marker);	
 		if (grid[this.pgLocY][this.pgLocX]==3)
 		{
 			grid[this.pgLocY][this.pgLocX]=0;
-			marker.image(potion, drawCollectX, drawCollectY);
+			//marker.image(potion, 400, 250);
 		}
 		else if (grid[this.pgLocY][this.pgLocX]==4)
 		{
