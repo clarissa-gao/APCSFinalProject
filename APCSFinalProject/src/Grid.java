@@ -15,19 +15,19 @@ import processing.core.PImage;
  * 
  * This class represents the grid of the program. The class has a player (which the user controls), obstructions (which the player must avoid or else he/she will lose the game), collectables (the yellow rectangles that do not do anything yet), and a final location (represented by the treasure chest)
  */
-public class Grid
+public class Grid extends PApplet
 {
 	private int [][] grid;
 	private int [][] pictureOrganization;
 	
 	// 0 = empty, 2 = destination, -1 = obstruction, 3 = potion, 4 = shield
-	private int row, column, pgLocX, pgLocY, numObstructions; //player grid loc
+	private int row, column, pgLocX, pgLocY, numObstructions, collectsDrawn; //player grid loc
 	private Character player;
 	private ArrayList<Obstruction> obstructions;
 	private Collectable[] collectables;
 	private float cellWidth, cellHeight, playerX, playerY;
 	private long counter, move;
-	private boolean obstructionsHaveMoved;
+	private boolean obstructionsHaveMoved, isCollected;
 
 	// Constructs an grid with the character at a predetermined starting location, obstructions and
 	// collectables placed at random locations, and a randomly generated destination
@@ -36,8 +36,8 @@ public class Grid
 	 */
 	public Grid() 
 	{
-		numObstructions=0;
-		obstructionsHaveMoved = false;
+		numObstructions=0;collectsDrawn = 0;
+		obstructionsHaveMoved = false; isCollected = false;
 		row = 25;
 		column = 25;
 		grid = new int [column][row];
@@ -68,16 +68,6 @@ public class Grid
 			{
 				numObstructions++;
 				grid[rx][ry]=-1;
-//				if(ry!=0)
-//				{
-//					grid[rx][ry-1] = -1;
-//					numObstructions++;
-//				}
-//				if(ry!=column-1)
-//				{
-//					grid[rx][ry+1] = -1;
-//					numObstructions++;
-//				}
 			}
 			else 
 			{
@@ -85,20 +75,12 @@ public class Grid
 			}
 		}
 		collectables = new Collectable[6];//6 collectables??
-		for(int i = 0; i < 6; i++)
-		{	
-			int x = (int)(Math.random()*25);
-			int y = (int)(Math.random()*25);
-			if (grid[x][y]==0) 
-			{
-				int collectable = (int)(Math.random()*2);
-				grid[x][y]=collectable+3;
-				//System.out.println(collectable+3);
-			}
-			else 
-			{
-				i--;
-			}
+		int x = (int)(Math.random()*25);
+		int y = (int)(Math.random()*25);
+		if (grid[x][y]==0) 
+		{
+			int collectable = (int)(Math.random()*2);
+			grid[x][y]=collectable+3;
 		}
 	}
 	
@@ -160,9 +142,9 @@ public class Grid
 			return 10;
 	}
 	
+	
 	/**
 	 * Optionally, complete this method to draw the grid on a PApplet.
-	 * 
 	 * @param marker The PApplet used for drawing.
 	 * @param x The x pixel coordinate of the upper left corner of the grid drawing. 
 	 * @param y The y pixel coordinate of the upper left corner of the grid drawing.
@@ -211,10 +193,7 @@ public class Grid
 					{
 						marker.image(obstruction1, (j+move)*cellWidth + x, i*cellHeight + y, cellWidth, cellHeight);
 					}
-					else
-					{
-						marker.image(obstruction1, (j)*cellWidth + x, i*cellHeight + y, cellWidth, cellHeight);
-					}
+					obstructionsCount++;
 				}
 				if (grid[i][j] == 3)
 				{
@@ -232,11 +211,26 @@ public class Grid
 		if (grid[this.pgLocY][this.pgLocX]==3)
 		{
 			grid[this.pgLocY][this.pgLocX]=0;
-			//marker.image(potion, 400, 250);
+			isCollected = false;
+			int xLoc = (int)(Math.random()*25);
+			int yLoc = (int)(Math.random()*25);
+			if (grid[xLoc][yLoc]==0) 
+			{
+				int collectable = (int)(Math.random()*2);
+				grid[xLoc][yLoc]=collectable+3;
+			}
 		}
 		else if (grid[this.pgLocY][this.pgLocX]==4)
 		{
 			grid[this.pgLocY][this.pgLocX]=0;
+			isCollected = false;
+			int xLoc = (int)(Math.random()*25);
+			int yLoc = (int)(Math.random()*25);
+			if (grid[xLoc][yLoc]==0) 
+			{
+				int collectable = (int)(Math.random()*2);
+				grid[xLoc][yLoc]=collectable+3;
+			}
 		}
 	}
 	

@@ -25,6 +25,7 @@ public class DrawingSurface extends PApplet {
 	private PImage image;
 	private Character player;
 	private boolean canMove;
+	private ArrayList<Obstruction> o;
 	private long startTime, endTime, counter;
 
 //	private Mario mario;
@@ -47,7 +48,7 @@ public class DrawingSurface extends PApplet {
 		//image = this.loadImage("forest.png");
 		startTime = this.second();
 		counter = 0;
-		
+		o = new ArrayList<Obstruction>();
 	}
 
 
@@ -95,7 +96,7 @@ public class DrawingSurface extends PApplet {
 		int py = g.getpgLocY();
 		
 		int status = g.getStatus(px, py);
-		System.out.println(status);
+//		System.out.println(status);
 		if (status == 2)
 		{
 			canMove = false;
