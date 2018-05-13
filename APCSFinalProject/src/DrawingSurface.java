@@ -79,10 +79,7 @@ public class DrawingSurface extends PApplet {
 	{
 		// drawing stuff
 		counter++;
-		if (counter%15 == 0)
-		{
-			move++;
-		}
+		
 		background(255); 
 
 		pushMatrix();
@@ -96,16 +93,31 @@ public class DrawingSurface extends PApplet {
 		
 		g.draw(this, 0, 0, 570, 600);
 		
+		if (counter%15 == 0)
+		{
+			move++;
+		}
+		
 		float cellWidth = 570/grid.length; 
 		float cellHeight = 600/grid[0].length; 
 		for(int i = 0; i < grid.length; i++)
 		{
 			for(int j = 0; j < grid[0].length; j++)
 			{
-				if(grid[i][j] == -1 && (cellWidth/2)+(j+move)*cellWidth < cellWidth*25)
-				{
-					o.draw(this, (cellWidth/2)+(j+move)*cellWidth, i*cellHeight, cellWidth, cellHeight);
+				if(grid[i][j] == -1)
+				{	
+					o.draw(this, (cellWidth/2)+(j)*cellWidth, i*cellHeight, cellWidth, cellHeight);
 				}
+//				if(grid[i][j] == -1 && (cellWidth/2)+(j+move)*cellWidth < cellWidth*25)
+//				{
+//					grid[i][(int)(j+move)] = -1;
+//					o.draw(this, (cellWidth/2)+(j+move)*cellWidth, i*cellHeight, cellWidth, cellHeight);
+//					if(move!= 0 && move-move==0 && j+1<25)
+//					{
+//						grid[i][j+1] = -1;
+//						grid[i][j]=0;
+//					}
+//				}
 			}
 		}
 		
@@ -114,6 +126,17 @@ public class DrawingSurface extends PApplet {
 		this.rect(585, 350, 200, 200);
 		this.fill(0);
 		this.text("Items Collected:", 625, 375);
+		this.text(g.getNumCollected()+"/6", 675, 400);
+		if(g.getNumCollected()==6)
+		{
+			g.setShowFinal(true);
+		}
+//		Collectable[]c = g.getCollectables();
+//		for (int i = 0; i < 7; i++)
+//		{
+//			if(g.isCollected())
+//				c[i].draw(this);
+//		}
 		
 		int px = g.getpgLocX();
 		int py = g.getpgLocY();

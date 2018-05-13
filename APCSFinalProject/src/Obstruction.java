@@ -39,6 +39,16 @@ public abstract class Obstruction extends Sprite
 		marker.image(image, x, y, width, height);
 	}
 	
+	public int getx()
+	{
+		return x;
+	}
+	
+	public int gety()
+	{
+		return y;
+	}
+	
 	public void setX(int x)
 	{
 		this.x = x;
@@ -48,4 +58,5 @@ public abstract class Obstruction extends Sprite
 	{
 		this.y = y;
 	}
+	
 }

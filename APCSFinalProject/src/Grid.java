@@ -20,12 +20,12 @@ public class Grid extends PApplet
 	private int [][] grid;
 	
 	// 0 = empty, 2 = destination, -1 = obstruction, 3 = potion, 4 = shield
-	private int row, column, pgLocX, pgLocY, numObstructions, collectsDrawn; //player grid loc
+	private int row, column, pgLocX, pgLocY, numObstructions, collectsDrawn, numCollected; //player grid loc
 	private Character player;
 	private Collectable[] collectables;
 	private float cellWidth, cellHeight, playerX, playerY;
 	private long counter, move;
-	private boolean obstructionsHaveMoved, isCollected;
+	private boolean obstructionsHaveMoved, isCollected, showFinal;
 
 	// Constructs an grid with the character at a predetermined starting location, obstructions and
 	// collectables placed at random locations, and a randomly generated destination
@@ -34,7 +34,7 @@ public class Grid extends PApplet
 	 */
 	public Grid() 
 	{
-		numObstructions=0;collectsDrawn = 0;
+		numObstructions=0;collectsDrawn = 0; numCollected = 0;
 		obstructionsHaveMoved = false; isCollected = false;
 		row = 25;
 		column = 25;
@@ -170,7 +170,7 @@ public class Grid extends PApplet
 				marker.strokeWeight(1);
 				marker.stroke(150);
 				marker.rect(j*cellWidth + x, i*cellHeight + y, cellWidth, cellHeight);
-				if (grid[i][j]==2) 
+				if (grid[i][j]==2 && showFinal==true) 
 					marker.image(finalLoc, j*cellWidth + x, i*cellHeight + y, cellWidth, cellHeight);
 				if (grid[i][j] == 3)
 					marker.image(potion, j*cellWidth + x, i*cellHeight + y, cellWidth, cellHeight);
@@ -181,8 +181,17 @@ public class Grid extends PApplet
 
 		player = new Character(marker.loadImage("mouse.png"), (int)playerX, (int)playerY);
 		player.draw(marker);	
-		if (grid[this.pgLocY][this.pgLocX]==3)
+		if (grid[this.pgLocY][this.pgLocX]==3 || grid[this.pgLocY][this.pgLocX]==4)
 		{
+			isCollected = true;
+//			if (grid[this.pgLocY][this.pgLocX]==3)
+//			{
+//				collectables[numCollected] = new Healing(potion, 600+numCollected*45, 425);
+//			}
+//			if (grid[this.pgLocY][this.pgLocX]==4)
+//			{
+//				collectables[numCollected] = new Healing(shield, 600+numCollected*45, 425);
+//			}
 			grid[this.pgLocY][this.pgLocX]=0;
 			isCollected = false;
 			int xLoc = (int)(Math.random()*25);
@@ -192,26 +201,35 @@ public class Grid extends PApplet
 				int collectable = (int)(Math.random()*2);
 				grid[xLoc][yLoc]=collectable+3;
 			}
+			numCollected++;
 		}
-		else if (grid[this.pgLocY][this.pgLocX]==4)
-		{
-			grid[this.pgLocY][this.pgLocX]=0;
-			isCollected = false;
-			int xLoc = (int)(Math.random()*25);
-			int yLoc = (int)(Math.random()*25);
-			if (grid[xLoc][yLoc]==0) 
-			{
-				int collectable = (int)(Math.random()*2);
-				grid[xLoc][yLoc]=collectable+3;
-			}
-		}
+	}
+	
+	public void setShowFinal(boolean d)
+	{
+		showFinal = d;
+	}
+	
+	public boolean isCollected()
+	{
+		return isCollected;
+	}
+	
+	public int getNumCollected()
+	{
+		return numCollected;
+	}
+	
+	public Collectable[] getCollectables()
+	{
+		return collectables;
 	}
 	
 	public int[][] getGrid()
 	{
 		return grid;
 	}
-	
+		
 	public float getCellWidth()
 	{
 		return cellWidth;
