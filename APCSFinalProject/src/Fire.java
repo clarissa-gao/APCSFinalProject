@@ -11,6 +11,8 @@ import processing.core.PImage;
 public class Fire extends Obstruction {
 //death, spreads across grid, maybe we can do a save the forest type of thing
 	
+	private PImage p;
+	
 	/**
 	 * 
 	 * @param img - PImage that will represent the fire in a grid
@@ -21,7 +23,6 @@ public class Fire extends Obstruction {
 	 */
 	public Fire(PImage img, int x, int y) {
 		super(img, x, y);
-		
+		p = img;
 	}
-
 }

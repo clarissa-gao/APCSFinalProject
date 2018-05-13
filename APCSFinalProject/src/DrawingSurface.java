@@ -25,8 +25,8 @@ public class DrawingSurface extends PApplet {
 	private PImage image;
 	private Character player;
 	private boolean canMove;
-	private ArrayList<Obstruction> o;
-	private long startTime, endTime, counter;
+	private Obstruction o;
+	private long startTime, endTime, counter, move;
 
 //	private Mario mario;
 	private ArrayList<Shape> obstacles;
@@ -47,14 +47,14 @@ public class DrawingSurface extends PApplet {
 		canMove = true;
 		//image = this.loadImage("forest.png");
 		startTime = this.second();
-		counter = 0;
-		o = new ArrayList<Obstruction>();
+		counter = 0; move = 0;
 	}
 
 
-//	public void spawnNewMario() {
+	public void makeObstruc() {
 //		mario = new Mario(assets.get(0), DRAWING_WIDTH/2-Mario.MARIO_WIDTH/2,50);
-//	}
+		o = new Fire(assets.get(0), 30, 30);
+	}
 	
 	public void runMe() {
 		runSketch();
@@ -66,7 +66,9 @@ public class DrawingSurface extends PApplet {
 		//size(0,0,PApplet.P3D);
 		//assets.add(loadImage("mario.png"));
 		//spawnNewMario();
-		assets.add(loadImage("mouse.png"));
+		//assets.add(loadImage("mouse.png"));
+		assets.add(loadImage("fire.png"));
+		makeObstruc();
 	}
 
 	// The statements in draw() are executed until the 
@@ -76,7 +78,11 @@ public class DrawingSurface extends PApplet {
 	public void draw() 
 	{
 		// drawing stuff
-
+		counter++;
+		if (counter%15 == 0)
+		{
+			move++;
+		}
 		background(255); 
 
 		pushMatrix();
@@ -85,7 +91,24 @@ public class DrawingSurface extends PApplet {
 		float ratioY = (float)height/DRAWING_HEIGHT;
 
 		scale(ratioX, ratioY);
+		
+		int[][]grid = g.getGrid();
+		
 		g.draw(this, 0, 0, 570, 600);
+		
+		float cellWidth = 570/grid.length; 
+		float cellHeight = 600/grid[0].length; 
+		for(int i = 0; i < grid.length; i++)
+		{
+			for(int j = 0; j < grid[0].length; j++)
+			{
+				if(grid[i][j] == -1 && (cellWidth/2)+(j+move)*cellWidth < cellWidth*25)
+				{
+					o.draw(this, (cellWidth/2)+(j+move)*cellWidth, i*cellHeight, cellWidth, cellHeight);
+				}
+			}
+		}
+		
 		this.stroke(0);
 		this.fill(255);
 		this.rect(585, 350, 200, 200);
@@ -121,7 +144,7 @@ public class DrawingSurface extends PApplet {
 		}
 		else if (status == -1)
 		{
-			canMove = false;
+			//canMove = false;
 			this.fill(200);
 			this.stroke(200);
 			this.rect(200, 200, 400, 225);

@@ -18,12 +18,10 @@ import processing.core.PImage;
 public class Grid extends PApplet
 {
 	private int [][] grid;
-	private int [][] pictureOrganization;
 	
 	// 0 = empty, 2 = destination, -1 = obstruction, 3 = potion, 4 = shield
 	private int row, column, pgLocX, pgLocY, numObstructions, collectsDrawn; //player grid loc
 	private Character player;
-	private ArrayList<Obstruction> obstructions;
 	private Collectable[] collectables;
 	private float cellWidth, cellHeight, playerX, playerY;
 	private long counter, move;
@@ -41,8 +39,6 @@ public class Grid extends PApplet
 		row = 25;
 		column = 25;
 		grid = new int [column][row];
-		pictureOrganization = new int[column][row];
-		obstructions = new ArrayList<Obstruction>();
 		for (int i = 0; i < grid.length; i++)
 		{
 			for (int a = 0; a < grid[0].length; a++)
@@ -153,15 +149,7 @@ public class Grid extends PApplet
 	 */
 	public void draw(PApplet marker, float x, float y, float width, float height) 
 	{	
-		counter++;
-		if (counter%10 == 0)
-		{
-			move++;
-		}
-		
 		PImage finalLoc = marker.loadImage("treasurechest.png");
-		PImage obstruction1 = marker.loadImage("fire.png");
-		PImage hole = marker.loadImage("hole.png");
 		PImage potion = marker.loadImage("potion.png");
 		PImage shield = marker.loadImage("shield.jpg");
 				
@@ -174,7 +162,6 @@ public class Grid extends PApplet
 		marker.textSize(15);
 		
 		marker.stroke(0);
-		int obstructionsCount = 0;
 		for (int i = 0; i < grid[0].length; i++)
 		{
 			for (int j = 0; j < grid.length; j++)
@@ -184,25 +171,11 @@ public class Grid extends PApplet
 				marker.stroke(150);
 				marker.rect(j*cellWidth + x, i*cellHeight + y, cellWidth, cellHeight);
 				if (grid[i][j]==2) 
-				{
 					marker.image(finalLoc, j*cellWidth + x, i*cellHeight + y, cellWidth, cellHeight);
-				}
-				if (grid[i][j]==-1) 
-				{
-					if (j+move < 24)
-					{
-						marker.image(obstruction1, (j+move)*cellWidth + x, i*cellHeight + y, cellWidth, cellHeight);
-					}
-					obstructionsCount++;
-				}
 				if (grid[i][j] == 3)
-				{
 					marker.image(potion, j*cellWidth + x, i*cellHeight + y, cellWidth, cellHeight);
-				}
 				if (grid[i][j] == 4)
-				{
 					marker.image(shield, j*cellWidth + x, i*cellHeight + y, cellWidth, cellHeight);
-				}
 			}
 		}
 
@@ -232,6 +205,11 @@ public class Grid extends PApplet
 				grid[xLoc][yLoc]=collectable+3;
 			}
 		}
+	}
+	
+	public int[][] getGrid()
+	{
+		return grid;
 	}
 	
 	public float getCellWidth()

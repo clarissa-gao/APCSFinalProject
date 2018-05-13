@@ -33,6 +33,12 @@ public abstract class Obstruction extends Sprite
 		marker.image(image, x, y);
 	}
 	
+	public void draw(PApplet marker, float x, float y, float width, float height)
+	{
+		//marker.imageMode(marker.CORNER);
+		marker.image(image, x, y, width, height);
+	}
+	
 	public void setX(int x)
 	{
 		this.x = x;
