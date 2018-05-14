@@ -149,12 +149,19 @@ public class Grid extends PApplet
 	 */
 	public void draw(PApplet marker, float x, float y, float width, float height) 
 	{	
+		counter++;
+		if(counter%15==0)
+		{
+			move++;
+		}
 		PImage finalLoc = marker.loadImage("treasurechest.png");
 		PImage potion = marker.loadImage("potion.png");
 		PImage shield = marker.loadImage("shield.jpg");
+		PImage obstruction1 = marker.loadImage("fire.png");
 				
-		cellWidth = width/grid.length; //24
-		cellHeight = height/grid[0].length; //22.8
+		cellWidth = width/grid.length; //22.8
+		cellHeight = height/grid[0].length; //24
+		//System.out.println(cellWidth);
 		//marker.background(255);
 		
 		marker.stroke(0);
@@ -176,6 +183,7 @@ public class Grid extends PApplet
 					marker.image(potion, j*cellWidth + x, i*cellHeight + y, cellWidth, cellHeight);
 				if (grid[i][j] == 4)
 					marker.image(shield, j*cellWidth + x, i*cellHeight + y, cellWidth, cellHeight);
+
 			}
 		}
 
@@ -184,14 +192,6 @@ public class Grid extends PApplet
 		if (grid[this.pgLocY][this.pgLocX]==3 || grid[this.pgLocY][this.pgLocX]==4)
 		{
 			isCollected = true;
-//			if (grid[this.pgLocY][this.pgLocX]==3)
-//			{
-//				collectables[numCollected] = new Healing(potion, 600+numCollected*45, 425);
-//			}
-//			if (grid[this.pgLocY][this.pgLocX]==4)
-//			{
-//				collectables[numCollected] = new Healing(shield, 600+numCollected*45, 425);
-//			}
 			grid[this.pgLocY][this.pgLocX]=0;
 			isCollected = false;
 			int xLoc = (int)(Math.random()*25);
@@ -238,6 +238,21 @@ public class Grid extends PApplet
 	public float getCellHeight()
 	{
 		return cellHeight;
+	}
+	
+	public String toString()
+	{
+		String s = "";
+		for(int i = 0; i < 25; i++)
+		{
+			for (int a = 0; a < 25; a++)
+			{
+				s+=grid[i][a];
+			}
+			s+="\n";
+		}
+		s+="\n";
+		return s;
 	}
 
 }

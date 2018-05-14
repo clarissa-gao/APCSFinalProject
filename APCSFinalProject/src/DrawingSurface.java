@@ -96,6 +96,7 @@ public class DrawingSurface extends PApplet {
 		if (counter%15 == 0)
 		{
 			move++;
+			System.out.println("ahahah");
 		}
 		
 		float cellWidth = 570/grid.length; 
@@ -104,19 +105,21 @@ public class DrawingSurface extends PApplet {
 		{
 			for(int j = 0; j < grid[0].length; j++)
 			{
-				if(grid[i][j] == -1)
-				{	
-					o.draw(this, (cellWidth/2)+(j)*cellWidth, i*cellHeight, cellWidth, cellHeight);
+				if(grid[i][j] == -1 && (cellWidth/2)+(j+move)*cellWidth < cellWidth*25 && j+1<25)
+				{
+					o.draw(this, (cellWidth/2)+(j+move)*cellWidth, i*cellHeight, cellWidth, cellHeight);
 				}
-//				if(grid[i][j] == -1 && (cellWidth/2)+(j+move)*cellWidth < cellWidth*25)
+//				if((cellWidth/2)+(j+move)*cellWidth > cellWidth*25)
 //				{
-//					grid[i][(int)(j+move)] = -1;
+//					o.draw(this, (cellWidth/2)+(0+move)*cellWidth, i*cellHeight, cellWidth, cellHeight);
+//					grid[0][i]= -1;
+//				}
+//				if(grid[i][j] == -1 && counter%15 == 0 &&j+1<25)
+//				{
 //					o.draw(this, (cellWidth/2)+(j+move)*cellWidth, i*cellHeight, cellWidth, cellHeight);
-//					if(move!= 0 && move-move==0 && j+1<25)
-//					{
-//						grid[i][j+1] = -1;
-//						grid[i][j]=0;
-//					}
+//					grid[i][(int)(j+1)] = -1;
+//					grid[i][j] = 0;
+//					j++;
 //				}
 			}
 		}
