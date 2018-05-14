@@ -24,9 +24,10 @@ public class DrawingSurface extends PApplet {
 	private Grid g;
 	private PImage image;
 	private Character player;
-	private boolean canMove;
+	private boolean canMove, timeLeft;
 	private Obstruction o;
 	private long startTime, endTime, counter, move;
+	private int time;
 
 //	private Mario mario;
 	private ArrayList<Shape> obstacles;
@@ -48,6 +49,8 @@ public class DrawingSurface extends PApplet {
 		//image = this.loadImage("forest.png");
 		startTime = this.second();
 		counter = 0; move = 0;
+		time = 0;
+		timeLeft=true;
 	}
 
 
@@ -79,6 +82,10 @@ public class DrawingSurface extends PApplet {
 	{
 		// drawing stuff
 		counter++;
+		if(counter%10==0)
+		{
+			time++;
+		}
 		
 		background(255); 
 
@@ -88,6 +95,19 @@ public class DrawingSurface extends PApplet {
 		float ratioY = (float)height/DRAWING_HEIGHT;
 
 		scale(ratioX, ratioY);
+		
+		//time
+		if(90-time<=0)
+		{
+			timeLeft=false;
+		}
+		else
+		{
+			this.text("TIME: " + (90-time), 650, 30);
+			this.noFill();
+			this.rect(580, 5, 200, 50);
+		}
+		
 		
 		int[][]grid = g.getGrid();
 		
@@ -177,6 +197,29 @@ public class DrawingSurface extends PApplet {
 			this.fill(0);
 			this.textSize(75);
 			this.text("YOU LOSE!", 210, 275);
+			this.fill(255, 0, 0);
+			this.rect(300, 300, 200, 100);
+			this.fill(0);
+			this.textSize(40);
+			this.text("QUIT", 350, 360);
+			if (this.mousePressed)
+			{
+				if (mouseX >= 300 && mouseX <= 500 && mouseY >= 300 && mouseY <= 400)
+				{
+					System.exit(0);
+				}
+			}
+		}
+		
+		if (timeLeft==false)
+		{
+			canMove = false;
+			this.fill(200);
+			this.stroke(200);
+			this.rect(200, 200, 400, 225);
+			this.fill(0);
+			this.textSize(75);
+			this.text("TIMES UP!", 210, 275);
 			this.fill(255, 0, 0);
 			this.rect(300, 300, 200, 100);
 			this.fill(0);
