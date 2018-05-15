@@ -26,6 +26,7 @@ public class Grid extends PApplet
 	private float cellWidth, cellHeight, playerX, playerY;
 	private long counter, move;
 	private boolean obstructionsHaveMoved, isCollected, showFinal;
+	private ArrayList<PImage>collectableImages;
 
 	// Constructs an grid with the character at a predetermined starting location, obstructions and
 	// collectables placed at random locations, and a randomly generated destination
@@ -78,6 +79,7 @@ public class Grid extends PApplet
 			int collectable = (int)(Math.random()*2);
 			grid[x][y]=collectable+3;
 		}
+		collectableImages = new ArrayList<PImage>();
 	}
 	
 	public int getRow()
@@ -193,6 +195,14 @@ public class Grid extends PApplet
 		{
 			isCollected = true;
 			grid[this.pgLocY][this.pgLocX]=0;
+			if(grid[this.pgLocY][this.pgLocX]==3)
+			{
+				collectableImages.add(potion);
+			}
+			else if(grid[this.pgLocY][this.pgLocX]==4)
+			{
+				collectableImages.add(shield);
+			}
 			isCollected = false;
 			int xLoc = (int)(Math.random()*25);
 			int yLoc = (int)(Math.random()*25);
@@ -204,6 +214,12 @@ public class Grid extends PApplet
 			numCollected++;
 		}
 	}
+	
+	public ArrayList<PImage> getCollectables()
+	{
+		return collectableImages;
+	}
+	
 	
 	public void setShowFinal(boolean d)
 	{
@@ -218,11 +234,6 @@ public class Grid extends PApplet
 	public int getNumCollected()
 	{
 		return numCollected;
-	}
-	
-	public Collectable[] getCollectables()
-	{
-		return collectables;
 	}
 	
 	public int[][] getGrid()

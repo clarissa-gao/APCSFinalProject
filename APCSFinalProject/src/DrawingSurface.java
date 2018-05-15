@@ -103,6 +103,7 @@ public class DrawingSurface extends PApplet {
 		}
 		else
 		{
+			this.textSize(15);
 			this.text("TIME: " + (90-time), 650, 30);
 			this.noFill();
 			this.rect(580, 5, 200, 50);
@@ -116,7 +117,7 @@ public class DrawingSurface extends PApplet {
 		if (counter%15 == 0)
 		{
 			move++;
-			System.out.println("ahahah");
+			
 		}
 		
 		float cellWidth = 570/grid.length; 
@@ -154,6 +155,19 @@ public class DrawingSurface extends PApplet {
 		{
 			g.setShowFinal(true);
 		}
+		ArrayList<PImage> collectableImages = g.getCollectables();
+		int c = 0;
+		System.out.println(collectableImages.size());
+		if (collectableImages.size() > 0)
+		{
+			for (PImage a : collectableImages)
+			{
+				this.image(a, 600 + 45*c, 400);
+				c++;
+				System.out.println("asdf");
+			}
+		}
+		
 //		Collectable[]c = g.getCollectables();
 //		for (int i = 0; i < 7; i++)
 //		{
