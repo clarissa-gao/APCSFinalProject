@@ -214,7 +214,6 @@ public class Grid extends PApplet
 			}
 			numCollected++;
 		}
-		System.out.println(collectableImages.size());
 	}
 	
 	public ArrayList<PImage> getCollectables()

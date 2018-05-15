@@ -27,8 +27,9 @@ public class DrawingSurface extends PApplet {
 	private boolean canMove, timeLeft;
 	private Obstruction o;
 	private long startTime, endTime, counter, move;
-	private int time;
-
+	private int time, numCollectablesDrawn;
+	private HealthSystem h;
+	
 //	private Mario mario;
 	private ArrayList<Shape> obstacles;
 
@@ -51,6 +52,8 @@ public class DrawingSurface extends PApplet {
 		counter = 0; move = 0;
 		time = 0;
 		timeLeft=true;
+		h = new HealthSystem();
+		numCollectablesDrawn=0;
 	}
 
 
@@ -117,7 +120,6 @@ public class DrawingSurface extends PApplet {
 		if (counter%15 == 0)
 		{
 			move++;
-			
 		}
 		
 		float cellWidth = 570/grid.length; 
@@ -157,9 +159,9 @@ public class DrawingSurface extends PApplet {
 		}
 		ArrayList<PImage> collectableImages = g.getCollectables();
 		int c = 0;
-		//System.out.println(collectableImages.size());
 		if (collectableImages.size() > 0 && c<6)
 		{
+			numCollectablesDrawn= numCollectablesDrawn-collectableImages.size();
 			for (PImage a : collectableImages)
 			{
 				if (c<3)
@@ -170,18 +172,13 @@ public class DrawingSurface extends PApplet {
 			}
 		}
 		
-//		Collectable[]c = g.getCollectables();
-//		for (int i = 0; i < 7; i++)
-//		{
-//			if(g.isCollected())
-//				c[i].draw(this);
-//		}
+		//health system
+		h.draw(this, 585, 275, 200, 50);
 		
 		int px = g.getpgLocX();
 		int py = g.getpgLocY();
 		
 		int status = g.getStatus(px, py);
-//		System.out.println(status);
 		if (status == 2)
 		{
 			canMove = false;
