@@ -1,0 +1,85 @@
+Alex Wang
+Karen Li
+Clarissa Gao
+Period 3
+APCS FINAL PROJECT READ ME
+
+HEADER
+
+Name of Program: TBA
+Authors: Clarissa Gao, Karen Li, Alex Wang
+Written: May 2018
+
+DESCRIPTION
+
+In our program there is a character on a grid screen that is moved by the player (see instructions below for more information), and the purpose and goal for the character is to get to a final destination — represented with the treasure chest on the map (grid). However, to actually be able to get to get to final destination, you will have needed to collect at least 6 special collectables (food, water, potions) which will randomly appear on the map one at a time by moving to those locations. Once you have gotten all the collectables, the final destination will unlock. If you do not have all the collectables, even if you physically get to the final destination, the game will not end, and you will still be considered playing. While you are doing this, you must also avoid some moving obstructions (fire, river, rocks, thorns) or else you will die. 
+
+INSTRUCTIONS
+
+The controls for the player are specified below:
+Up arrow key- move 1 grid unit forward
+Down arrow key - move 1 grid backward
+Left arrow key - move 1 grid unit to the left
+Right arrow key - move 1 grid unit to the right
+
+Collect 6 collectables in 90 seconds while avoiding obstructions. Once all the collectables are collected, the final treasure chest is revealed. Move to the treasure chest and you win the game.
+
+FEATURES LIST
+
+Must-Have
+Character
+Working Commands — Keyboard Commands for character to move
+Processing Graphics — Grid-Like Background
+Start Screen (Instructions that explain controls and objective and Start button)
+1 type of Obstruction — Animated obstacles that character must avoid
+1 type of collectable — Objects that character needs to pick up throughout game by moving to that location in the grid
+
+Want-to-Have
+Obstructions — at least 3 different types of obstruction, at least 1 that can move
+Start Screen with Storyline (Background Information)
+Collectables — at least 3 different types of collectables
+Objects that can move the character without player using keyboard
+Point System
+Player receives points for the number of collectables they get
+Player gets points at end for achieving goal under a certain amount of time
+Player gets points at end for achieving for in minimum amount of steps
+
+Stretch
+Include building/breaking ability for character
+Penalty for if character does not move for more than 10 seconds
+Different modes/locations in which the only thing that changes game to game is the graphics of the obstructions and character, to convey that the player is in a different location/theme
+Have collectables that appear at different, random locations once a previous collectable is picked up
+End Screen that displays data from the round played (how well the player did), give the player an option to start a new game
+
+CLASS LIST
+
+Player
+Obstruction (super class)
+Subclasses: fire, rocks
+Collectables
+Healing (potion/food), Protective (shield), Destructive (ax)
+Panel (main)
+InstructionsSurface
+DrawingSurface (grid is in here)
+Grid
+
+RESPONSIBILITIES
+
+Clarissa: Character, Collectables
+Karen: Obstructions 
+Alex: DrawingSurface, Panel, Grid, InstructionSurface
+
+Feedback was given by Brent Delano and Tony Yu.
+
+https://github.com/clarissa-gao/APCSFinalProject.git 
+
+READ ME COMMENTS:
+The description isn’t intriguing enough; make it sound cooler. Ok 
+There’s not many special features to the game and it seems too simple. We know
+Game has potential to look nice if the game has very nice graphics and more features are added. Thanks, we will
+How many levels will there be? tba
+
+UML COMMENTS:
+Endpoint has a grid; shouldn’t it be the other way around? 
+Why do InstructionsButton and StartButton have a Main? 
+What is the point of having an InstructionsButton and StartButton?
