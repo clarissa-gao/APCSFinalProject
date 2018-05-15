@@ -194,7 +194,6 @@ public class Grid extends PApplet
 		if (grid[this.pgLocY][this.pgLocX]==3 || grid[this.pgLocY][this.pgLocX]==4)
 		{
 			isCollected = true;
-			grid[this.pgLocY][this.pgLocX]=0;
 			if(grid[this.pgLocY][this.pgLocX]==3)
 			{
 				collectableImages.add(potion);
@@ -203,6 +202,8 @@ public class Grid extends PApplet
 			{
 				collectableImages.add(shield);
 			}
+			grid[this.pgLocY][this.pgLocX]=0;
+			
 			isCollected = false;
 			int xLoc = (int)(Math.random()*25);
 			int yLoc = (int)(Math.random()*25);
@@ -213,6 +214,7 @@ public class Grid extends PApplet
 			}
 			numCollected++;
 		}
+		System.out.println(collectableImages.size());
 	}
 	
 	public ArrayList<PImage> getCollectables()

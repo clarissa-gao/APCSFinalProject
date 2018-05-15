@@ -157,14 +157,16 @@ public class DrawingSurface extends PApplet {
 		}
 		ArrayList<PImage> collectableImages = g.getCollectables();
 		int c = 0;
-		System.out.println(collectableImages.size());
-		if (collectableImages.size() > 0)
+		//System.out.println(collectableImages.size());
+		if (collectableImages.size() > 0 && c<6)
 		{
 			for (PImage a : collectableImages)
 			{
-				this.image(a, 600 + 45*c, 400);
+				if (c<3)
+					this.image(a, 610 + 50*c, 410, 45, 45);
+				else
+					this.image(a, 610 + 50*(c-3), 460, 45, 45);
 				c++;
-				System.out.println("asdf");
 			}
 		}
 		
