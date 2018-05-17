@@ -29,6 +29,8 @@ public class DrawingSurface extends PApplet {
 	private long startTime, endTime, counter, move;
 	private int time, numCollectablesDrawn;
 	private HealthSystem h;
+	private Healing heal;
+	private Protective shield;
 	
 //	private Mario mario;
 	private ArrayList<Shape> obstacles;
@@ -52,14 +54,23 @@ public class DrawingSurface extends PApplet {
 		counter = 0; move = 0;
 		time = 0;
 		timeLeft=true;
-		h = new HealthSystem();
+		h = g.getHealthSystem();
 		numCollectablesDrawn=0;
 	}
 
 
 	public void makeObstruc() {
-//		mario = new Mario(assets.get(0), DRAWING_WIDTH/2-Mario.MARIO_WIDTH/2,50);
 		o = new Fire(assets.get(0), 30, 30);
+	}
+	
+	public void makePotion()
+	{
+		heal = new Healing(assets.get(1), 30, 30);
+	}
+	
+	public void makeShield()
+	{
+		shield = new Protective(assets.get(2), 30, 30);
 	}
 	
 	public void runMe() {
@@ -74,7 +85,11 @@ public class DrawingSurface extends PApplet {
 		//spawnNewMario();
 		//assets.add(loadImage("mouse.png"));
 		assets.add(loadImage("fire.png"));
+		assets.add(loadImage("potion.png"));
+		assets.add(loadImage("shield.jpg"));
 		makeObstruc();
+		makePotion();
+		makeShield();
 	}
 
 	// The statements in draw() are executed until the 
@@ -99,7 +114,7 @@ public class DrawingSurface extends PApplet {
 
 		scale(ratioX, ratioY);
 		
-		//time
+		//timer
 		if(90-time<=0)
 		{
 			timeLeft=false;
@@ -114,39 +129,51 @@ public class DrawingSurface extends PApplet {
 		
 		
 		int[][]grid = g.getGrid();
-		
 		g.draw(this, 0, 0, 570, 600);
 		
 		if (counter%15 == 0)
 		{
 			move++;
+//			for(int i = 0; i < grid.length; i++)
+//			{
+//				for(int j = 0; j < grid[0].length; j++)
+//				{
+//					if(grid[i][j] == -1 && j < 24)
+//					{
+//						grid[i][j+1] = -1;
+//						grid[i][j]=0;
+//						j++;
+//					}
+//					else if(grid[i][j] == -1 && j == 24)
+//					{
+//						grid[i][0]= -1;
+//						grid[i][j]=0;
+//					}
+//				}
+//			}
 		}
 		
-		float cellWidth = 570/grid.length; 
-		float cellHeight = 600/grid[0].length; 
 		for(int i = 0; i < grid.length; i++)
 		{
 			for(int j = 0; j < grid[0].length; j++)
 			{
-				if(grid[i][j] == -1 && (cellWidth/2)+(j+move)*cellWidth < cellWidth*25 && j+1<25)
+				if(grid[i][j] == -1 && (j+move)*g.getCellWidth() < g.getCellWidth()*25 && j<24)
 				{
-					o.draw(this, (cellWidth/2)+(j+move)*cellWidth, i*cellHeight, cellWidth, cellHeight);
+					o.draw(this, (j+move)*g.getCellWidth(), i*g.getCellHeight(), g.getCellWidth(), g.getCellHeight());
 				}
-//				if((cellWidth/2)+(j+move)*cellWidth > cellWidth*25)
-//				{
-//					o.draw(this, (cellWidth/2)+(0+move)*cellWidth, i*cellHeight, cellWidth, cellHeight);
-//					grid[0][i]= -1;
-//				}
-//				if(grid[i][j] == -1 && counter%15 == 0 &&j+1<25)
-//				{
-//					o.draw(this, (cellWidth/2)+(j+move)*cellWidth, i*cellHeight, cellWidth, cellHeight);
-//					grid[i][(int)(j+1)] = -1;
-//					grid[i][j] = 0;
-//					j++;
-//				}
+				else if(grid[i][j]==3)
+				{
+					heal.draw(this, g.getCellWidth()*j, g.getCellHeight()*i, g.getCellWidth(), g.getCellHeight());
+				}
+				else if(grid[i][j]==4)
+				{
+					shield.draw(this, g.getCellWidth()*j, g.getCellHeight()*i, g.getCellWidth(), g.getCellHeight());
+				}
 			}
 		}
 		
+		
+		//draws collectables box
 		this.stroke(0);
 		this.fill(255);
 		this.rect(585, 350, 200, 200);
@@ -173,12 +200,18 @@ public class DrawingSurface extends PApplet {
 		}
 		
 		//health system
-		h.draw(this, 585, 275, 200, 50);
-		
 		int px = g.getpgLocX();
 		int py = g.getpgLocY();
-		
 		int status = g.getStatus(px, py);
+		
+		
+		h.draw(this, 585, 275, 200, 50);
+		boolean healthLeft = h.healthLeft();
+		if(healthLeft==false)
+		{
+			status = -1;
+		}
+		
 		if (status == 2)
 		{
 			canMove = false;

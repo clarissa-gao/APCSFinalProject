@@ -1,3 +1,4 @@
+import processing.core.PApplet;
 import processing.core.PImage;
 
 
@@ -9,6 +10,8 @@ import processing.core.PImage;
  * Collectable that is a healing potion. This potion can save the player and boost their health if they are about to/almost died.
  */
 public class Healing extends Collectable{
+	
+	private PImage img;
 
 	/**
 	 * 
@@ -20,7 +23,13 @@ public class Healing extends Collectable{
 	 */
 	public Healing(PImage img, int x, int y) {
 		super(img, x, y);
+		this.img=img;
 		// TODO Auto-generated constructor stub
+	}
+	
+	public void draw(PApplet m, float x, float y, float width, float height)
+	{
+		m.image(img, x, y, width, height);
 	}
 
 }

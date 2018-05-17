@@ -22,11 +22,11 @@ public class Grid extends PApplet
 	// 0 = empty, 2 = destination, -1 = obstruction, 3 = potion, 4 = shield
 	private int row, column, pgLocX, pgLocY, numObstructions, collectsDrawn, numCollected; //player grid loc
 	private Character player;
-	private Collectable[] collectables;
 	private float cellWidth, cellHeight, playerX, playerY;
 	private long counter, move;
 	private boolean obstructionsHaveMoved, isCollected, showFinal;
 	private ArrayList<PImage>collectableImages;
+	private HealthSystem h;
 
 	// Constructs an grid with the character at a predetermined starting location, obstructions and
 	// collectables placed at random locations, and a randomly generated destination
@@ -35,6 +35,7 @@ public class Grid extends PApplet
 	 */
 	public Grid() 
 	{
+		h = new HealthSystem();
 		numObstructions=0;collectsDrawn = 0; numCollected = 0;
 		obstructionsHaveMoved = false; isCollected = false;
 		row = 25;
@@ -71,7 +72,7 @@ public class Grid extends PApplet
 				i--;
 			}
 		}
-		collectables = new Collectable[6];//6 collectables??
+		
 		int x = (int)(Math.random()*25);
 		int y = (int)(Math.random()*25);
 		if (grid[x][y]==0) 
@@ -153,18 +154,15 @@ public class Grid extends PApplet
 	{	
 		counter++;
 		if(counter%15==0)
-		{
 			move++;
-		}
+		
 		PImage finalLoc = marker.loadImage("treasurechest.png");
 		PImage potion = marker.loadImage("potion.png");
 		PImage shield = marker.loadImage("shield.jpg");
-		PImage obstruction1 = marker.loadImage("fire.png");
 				
 		cellWidth = width/grid.length; //22.8
 		cellHeight = height/grid[0].length; //24
-		//System.out.println(cellWidth);
-		//marker.background(255);
+
 		
 		marker.stroke(0);
 		marker.textSize(30);
@@ -181,10 +179,6 @@ public class Grid extends PApplet
 				marker.rect(j*cellWidth + x, i*cellHeight + y, cellWidth, cellHeight);
 				if (grid[i][j]==2 && showFinal==true) 
 					marker.image(finalLoc, j*cellWidth + x, i*cellHeight + y, cellWidth, cellHeight);
-				if (grid[i][j] == 3)
-					marker.image(potion, j*cellWidth + x, i*cellHeight + y, cellWidth, cellHeight);
-				if (grid[i][j] == 4)
-					marker.image(shield, j*cellWidth + x, i*cellHeight + y, cellWidth, cellHeight);
 
 			}
 		}
@@ -193,15 +187,13 @@ public class Grid extends PApplet
 		player.draw(marker);	
 		if (grid[this.pgLocY][this.pgLocX]==3 || grid[this.pgLocY][this.pgLocX]==4)
 		{
+			h.change(10);
 			isCollected = true;
 			if(grid[this.pgLocY][this.pgLocX]==3)
-			{
 				collectableImages.add(potion);
-			}
 			else if(grid[this.pgLocY][this.pgLocX]==4)
-			{
 				collectableImages.add(shield);
-			}
+			
 			grid[this.pgLocY][this.pgLocX]=0;
 			
 			isCollected = false;
@@ -214,6 +206,11 @@ public class Grid extends PApplet
 			}
 			numCollected++;
 		}
+	}
+	
+	public HealthSystem getHealthSystem()
+	{
+		return h;
 	}
 	
 	public ArrayList<PImage> getCollectables()
@@ -250,21 +247,6 @@ public class Grid extends PApplet
 	public float getCellHeight()
 	{
 		return cellHeight;
-	}
-	
-	public String toString()
-	{
-		String s = "";
-		for(int i = 0; i < 25; i++)
-		{
-			for (int a = 0; a < 25; a++)
-			{
-				s+=grid[i][a];
-			}
-			s+="\n";
-		}
-		s+="\n";
-		return s;
 	}
 
 }
