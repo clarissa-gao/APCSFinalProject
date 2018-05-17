@@ -179,7 +179,6 @@ public class Grid extends PApplet
 				marker.rect(j*cellWidth + x, i*cellHeight + y, cellWidth, cellHeight);
 				if (grid[i][j]==2 && showFinal==true) 
 					marker.image(finalLoc, j*cellWidth + x, i*cellHeight + y, cellWidth, cellHeight);
-
 			}
 		}
 

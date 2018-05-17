@@ -186,14 +186,14 @@ public class DrawingSurface extends PApplet {
 		}
 		ArrayList<PImage> collectableImages = g.getCollectables();
 		int c = 0;
-		if (collectableImages.size() > 0 && c<6)
+		if (collectableImages.size() > 0)
 		{
 			numCollectablesDrawn= numCollectablesDrawn-collectableImages.size();
 			for (PImage a : collectableImages)
 			{
 				if (c<3)
 					this.image(a, 610 + 50*c, 410, 45, 45);
-				else
+				else if (c>=3 && c < 6)
 					this.image(a, 610 + 50*(c-3), 460, 45, 45);
 				c++;
 			}
@@ -204,7 +204,7 @@ public class DrawingSurface extends PApplet {
 		int py = g.getpgLocY();
 		int status = g.getStatus(px, py);
 		
-		
+		this.stroke(0);
 		h.draw(this, 585, 275, 200, 50);
 		boolean healthLeft = h.healthLeft();
 		if(healthLeft==false)
@@ -279,7 +279,6 @@ public class DrawingSurface extends PApplet {
 				}
 			}
 		}
-		
 		popMatrix();
 	}
 

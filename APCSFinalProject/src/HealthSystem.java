@@ -37,7 +37,21 @@ public class HealthSystem extends PApplet
 		marker.rect(x, y, width, height);
 		marker.fill(255, 0, 0);
 		//System.out.println(change);
+		String h = "";
 		marker.rect(x, y, width-otherCounter+change, height);
+		if(width-otherCounter+change < width/5)
+			h = "About to die";
+		else if(width-otherCounter+change < width*2/5)
+			h = "Not healthy";
+		else if(width-otherCounter+change < width*3/5)
+			h = "Ok";
+		else if (width-otherCounter+change < width*4/5)
+			h = "Healthy";
+		else
+			h = "Amazing";
+		
+		marker.fill(0);
+		marker.text("Health Status: " + h, 585, 270);
 		
 		marker.fill(0);
 	}
