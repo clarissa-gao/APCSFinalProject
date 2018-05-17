@@ -133,33 +133,27 @@ public class DrawingSurface extends PApplet {
 		
 		if (counter%15 == 0)
 		{
-			move++;
-//			for(int i = 0; i < grid.length; i++)
-//			{
-//				for(int j = 0; j < grid[0].length; j++)
-//				{
-//					if(grid[i][j] == -1 && j < 24)
-//					{
-//						grid[i][j+1] = -1;
-//						grid[i][j]=0;
-//						j++;
-//					}
-//					else if(grid[i][j] == -1 && j == 24)
-//					{
-//						grid[i][0]= -1;
-//						grid[i][j]=0;
-//					}
-//				}
-//			}
+			for(int i = 0; i < grid.length; i++)
+			{
+				for(int j = 0; j < grid[0].length-1; j++)
+				{
+					if (grid[i][j] == -1)
+					{
+						grid[i][j]=0;
+						grid[i][j+1] = -1;
+						j++;
+					}
+				}
+			}
 		}
 		
 		for(int i = 0; i < grid.length; i++)
 		{
 			for(int j = 0; j < grid[0].length; j++)
 			{
-				if(grid[i][j] == -1 && (j+move)*g.getCellWidth() < g.getCellWidth()*25 && j<24)
+				if(grid[i][j] == -1)
 				{
-					o.draw(this, (j+move)*g.getCellWidth(), i*g.getCellHeight(), g.getCellWidth(), g.getCellHeight());
+					o.draw(this, (j)*g.getCellWidth(), i*g.getCellHeight(), g.getCellWidth(), g.getCellHeight());
 				}
 				else if(grid[i][j]==3)
 				{
