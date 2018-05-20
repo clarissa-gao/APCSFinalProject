@@ -51,6 +51,7 @@ public class HealthSystem extends PApplet
 			h = "Amazing";
 		
 		marker.fill(0);
+		marker.textSize(15);
 		marker.text("Health Status: " + h, 585, 270);
 		
 		marker.fill(0);

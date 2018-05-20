@@ -19,7 +19,7 @@ public class Grid extends PApplet
 {
 	private int [][] grid;
 	
-	// 0 = empty, 2 = destination, -1 = fire, 3 = potion, 4 = shield, 5 = water bucket, -2 = stone
+	// 0 = empty, 2 = destination, -1 = fire, 3 = potion, 4 = shield, 5 = water bucket, -2 = stone, -3 = hole
 	private int row, column, pgLocX, pgLocY, numObstructions, collectsDrawn, numCollected; //player grid loc
 	private Character player;
 	private float cellWidth, cellHeight, playerX, playerY;
@@ -58,6 +58,7 @@ public class Grid extends PApplet
 		
 		counter = 0;
 
+		//fire
 		for (int i=0; i<20; i++) 
 		{
 			int rx = (int)(Math.random()*25);
@@ -73,6 +74,7 @@ public class Grid extends PApplet
 			}
 		}
 		
+		//rock
 		for (int i=0; i<10; i++) 
 		{
 			int rx = (int)(Math.random()*25);
@@ -81,6 +83,22 @@ public class Grid extends PApplet
 			{
 				numObstructions++;
 				grid[rx][ry]=-2;
+			}
+			else 
+			{
+				i--;
+			}
+		}
+		
+		//hole
+		for (int i=0; i<10; i++) 
+		{
+			int rx = (int)(Math.random()*25);
+			int ry = (int)(Math.random()*25);
+			if (grid[rx][ry] == 0) 
+			{
+				numObstructions++;
+				grid[rx][ry]=-3;
 			}
 			else 
 			{

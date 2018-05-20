@@ -21,7 +21,7 @@ public class DrawingSurface extends PApplet {
 	public static final int DRAWING_HEIGHT = 600;
 
 	private Grid g;
-	private boolean canMove, timeLeft, done, shiftPressed;
+	private boolean canMove, timeLeft, done, shiftPressed, gameOver;
 	private Obstruction o;
 	private long counter;
 	private int time, numCollectablesDrawn;
@@ -31,6 +31,7 @@ public class DrawingSurface extends PApplet {
 	private Rock r;
 	private Hole hole;
 	private WaterBucket wb;
+	private TimeSystem t;
 	
 	private ArrayList<Integer> keys;
 	private ArrayList<PImage> assets;
@@ -54,6 +55,8 @@ public class DrawingSurface extends PApplet {
 		timeLeft=true;
 		done=false;
 		shiftPressed = false;
+		t = new TimeSystem();
+		gameOver = false;
 	}
 
 
@@ -77,6 +80,9 @@ public class DrawingSurface extends PApplet {
 		shield = new Protective(assets.get(2), 30, 30);
 	}
 	
+	public void makeHole(){
+		hole = new Hole(assets.get(5), 30, 30);
+	}
 	
 	public void runMe() {
 		runSketch();
@@ -89,11 +95,13 @@ public class DrawingSurface extends PApplet {
 		assets.add(loadImage("mshield.gif"));
 		assets.add(loadImage("stone.png"));
 		assets.add(loadImage("waterbucket.png"));
+		assets.add(loadImage("hole.png"));
 		makeObstruc();
 		makePotion();
 		makeRock();
 		makeShield();
 		makeWaterBucket();
+		makeHole();
 	}
 
 	// The statements in draw() are executed until the 
@@ -106,8 +114,6 @@ public class DrawingSurface extends PApplet {
 		background(11, 191, 44);
 		
 		counter++;
-		if(counter%4==0)
-			time++; 
 
 		pushMatrix();
 
@@ -115,17 +121,6 @@ public class DrawingSurface extends PApplet {
 		float ratioY = (float)height/DRAWING_HEIGHT;
 
 		scale(ratioX, ratioY);
-		
-		//timer
-		if(90-time<=0)
-			timeLeft=false;
-		else
-		{
-			this.textSize(15);
-			this.text("TIME: " + (90-time), 650, 30);
-			this.noFill();
-			this.rect(580, 5, 200, 50);
-		}
 		
 		g.draw(this, 0, 0, 570, 600);
 		
@@ -171,6 +166,8 @@ public class DrawingSurface extends PApplet {
 					o.draw(this, (j)*g.getCellWidth(), i*g.getCellHeight(), g.getCellWidth(), g.getCellHeight());
 				else if(grid[i][j]==-2)
 					r.draw(this, g.getCellWidth()*j, g.getCellHeight()*i, g.getCellWidth(), g.getCellHeight());
+				else if(grid[i][j]==-3)
+					hole.draw(this, g.getCellWidth()*j, g.getCellHeight()*i, g.getCellWidth(), g.getCellHeight());
 				else if(grid[i][j]==3)
 					heal.draw(this, g.getCellWidth()*j, g.getCellHeight()*i, g.getCellWidth(), g.getCellHeight());
 				else if(grid[i][j]==4)
@@ -210,16 +207,53 @@ public class DrawingSurface extends PApplet {
 			}
 		}
 		
+		//timer
+		boolean timeLeft = t.isTimeUp();
+		if(timeLeft == false)
+		{
+			gameOver = true;
+		}
+		t.draw(this);
+		
 		//health system
 		int px = g.getpgLocX();
 		int py = g.getpgLocY();
 		int status = g.getStatus(px, py);
+		
+		if (status == -3)
+		{
+			boolean hasMoved = false;
+			while(hasMoved == false)
+			{
+				int x = (int)(Math.random()*25);
+				int y = (int)(Math.random()*25);
+				if (grid[x][y] == 0)
+				{
+					g.setpgLoxX(x);
+					g.setpgLoxY(y);
+					
+					g.setPlayerX(x*g.getCellHeight());
+					g.setPlayerY(y*g.getCellWidth());
+					
+					hasMoved = true;
+				}
+			}
+		}
+		
+		System.out.println("x: " + g.getpgLocX());
+		System.out.println("y: " + g.getpgLocY());
+		
+		if(status == -1 || status == -2)
+		{
+			gameOver = true;
+		}
+		
 		this.stroke(0);
 		h.draw(this, 585, 275, 200, 50);
 		boolean healthLeft = h.healthLeft();
 		if(healthLeft==false)
 		{
-			status = -1;
+			gameOver = true;
 		}
 		
 		if (status == 2)
@@ -244,7 +278,7 @@ public class DrawingSurface extends PApplet {
 				}
 			}
 		}
-		else if ((status == -1 || status == -2) && status != 2)
+		else if (gameOver)
 		{
 			canMove = false;
 			this.fill(200);
@@ -253,28 +287,6 @@ public class DrawingSurface extends PApplet {
 			this.fill(0);
 			this.textSize(75);
 			this.text("YOU LOSE!", 210, 275);
-			this.fill(255, 0, 0);
-			this.rect(300, 300, 200, 100);
-			this.fill(0);
-			this.textSize(40);
-			this.text("QUIT", 350, 360);
-			if (this.mousePressed)
-			{
-				if (mouseX >= 300 && mouseX <= 500 && mouseY >= 300 && mouseY <= 400)
-				{
-					System.exit(0);
-				}
-			}
-		}
-		else if (timeLeft==false && status != 2)
-		{
-			canMove = false;
-			this.fill(200);
-			this.stroke(200);
-			this.rect(200, 200, 400, 225);
-			this.fill(0);
-			this.textSize(75);
-			this.text("TIMES UP!", 210, 275);
 			this.fill(255, 0, 0);
 			this.rect(300, 300, 200, 100);
 			this.fill(0);
@@ -315,17 +327,6 @@ public class DrawingSurface extends PApplet {
 		    		g.setPlayerY((g.getPlayerY()+g.getCellHeight()));
 		    		g.setpgLoxY(g.getpgLocY()+1);
 		    }
-		    
-		    if (keyCode == KeyEvent.VK_SHIFT) 
-		    {
-		    		int a = g.getStatus(g.getpgLocX(), g.getpgLocY()-1);
-		    		if(a == -1 && g.hasBucket()==true)
-		    		{
-		    			//this.text("LALALALALA", 100, 100);
-		    			g.setLoc(g.getpgLocX(), g.getpgLocY()-1, 0);
-		    		}
-		    		
-		    }
 		}	
 	}
 
@@ -338,4 +339,3 @@ public class DrawingSurface extends PApplet {
 		return keys.contains(code);
 	}
 }
-
