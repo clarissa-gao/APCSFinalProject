@@ -24,7 +24,7 @@ public class HealthSystem extends PApplet
 	public void draw(PApplet marker, float x, float y, float width, float height)
 	{
 		counter++;
-		if(counter%2==0)
+		if(counter%1==0)
 		{
 			otherCounter++;
 		}

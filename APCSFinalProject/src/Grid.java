@@ -19,7 +19,7 @@ public class Grid extends PApplet
 {
 	private int [][] grid;
 	
-	// 0 = empty, 2 = destination, -1 = fire, 3 = potion, 4 = shield, 5 = water bucket, -2 = black hole
+	// 0 = empty, 2 = destination, -1 = fire, 3 = potion, 4 = shield, 5 = water bucket, -2 = stone
 	private int row, column, pgLocX, pgLocY, numObstructions, collectsDrawn, numCollected; //player grid loc
 	private Character player;
 	private float cellWidth, cellHeight, playerX, playerY;
@@ -87,7 +87,8 @@ public class Grid extends PApplet
 				i--;
 			}
 		}
-
+		
+		
 		
 		int x = (int)(Math.random()*25);
 		int y = (int)(Math.random()*25);
@@ -102,6 +103,11 @@ public class Grid extends PApplet
 			}
 		}
 		collectableImages = new ArrayList<PImage>();
+	}
+	
+	public void clear(int x, int y)
+	{
+		grid[x][y] = 0;
 	}
 	
 	public int getRow()
@@ -167,6 +173,11 @@ public class Grid extends PApplet
 		grid[x][y]=2;
 	}
 	
+	public void setLoc(int x, int y, int val)
+	{
+		grid[x][y]=val;
+	}
+	
 	public boolean hasBucket()
 	{
 		return hasBucket;
@@ -228,9 +239,9 @@ public class Grid extends PApplet
 		if(counter%15==0)
 			move++;
 		
-		PImage finalLoc = marker.loadImage("treasurechest.png");
+		PImage finalLoc = marker.loadImage("minnie.png");
 		PImage potion = marker.loadImage("potion.png");
-		PImage shield = marker.loadImage("shield.jpg");
+		PImage shield = marker.loadImage("mshield.gif");
 		PImage bucket = marker.loadImage("waterbucket.png");
 				
 		cellWidth = width/grid.length; //22.8
@@ -248,7 +259,7 @@ public class Grid extends PApplet
 			{
 				marker.noFill();
 				marker.strokeWeight(1);
-				marker.stroke(150);
+				marker.stroke(0);
 				marker.rect(j*cellWidth + x, i*cellHeight + y, cellWidth, cellHeight);
 				if (grid[i][j]==2 && showFinal==true) 
 					marker.image(finalLoc, j*cellWidth + x, i*cellHeight + y, cellWidth, cellHeight);
@@ -281,7 +292,7 @@ public class Grid extends PApplet
 				int yLoc = (int)(Math.random()*25);
 				if (grid[xLoc][yLoc]==0) 
 				{
-					int collectable = (int)(Math.random()*2);
+					int collectable = (int)(Math.random()*3);
 					grid[xLoc][yLoc]=collectable+3;
 					hasBeenDrawn=true;
 				}
