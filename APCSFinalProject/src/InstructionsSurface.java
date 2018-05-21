@@ -51,35 +51,30 @@ public class InstructionsSurface extends PApplet
 				"";
 		this.text(instructions, 40, 200);
 		this.textSize(15);
-		String whatToDo = "Move your character with the keyboard commands \n" + 
-				"throughout the map (grid) to get to the final\n" + 
-				"destination represented with the X! However, \n" + 
-				"to actually be able to get to the final destination, \n" + 
-				"you will have needed to collect special collectables \n" + 
-				"(food, water, potions) which will randomly appear \n" + 
-				"on the map one at a time by moving to those \n" + 
-				"locations. Once you have gotten all the \n" + 
-				"collectables, the final destination will unlock. While \n" + 
-				"you are doing this, you must also avoid some \n" + 
-				"obstructions (fire, river, rocks, thorns) or else you \n" + 
-				"will die. Have fun!\n" + 
+		String whatToDo = "Use the commands to move Mickey Mouse around the \n" + 
+				"grid! Have Mickey collect 6 collectables (shield, water, \n" + 
+				"potion) in any amount in any order. Once Mickey has 6 \n" + 
+				"collectables, he is finally strong enough to see Minnie \n" + 
+				"in all of this chaos, so Minnie will appear on the grid. \n" + 
+				"Move mickey to Minnie, and you will have saved their \n" + 
+				"relationship! While you do this, however, there are \n" + 
+				"certain things you must avoid. Avoid the stationary \n" + 
+				"rocks and moving fire. If you hit the black hole, you will \n" + 
+				"be transported to another random location. Have Fun!\n" + 
 				"";
 		this.text(whatToDo, 400, 200);
 		this.textSize(35);
 		this.text("WHAT TO DO", 450, 150);
 		
 		this.fill(200);
-		this.rect(40, 385, 200, 75);
 		this.fill(0);
-		this.text("Back", 105, 435);
+		this.textSize(15);
+		this.text("Click Anywhere to Go Back", 40, 580);
 		
 		if (panel.getInstructions().isVisible() && this.mousePressed == true)
 		{
-			if (mouseX >= 40 && mouseX <= 240 && mouseY >=385 && mouseY <= 460)
-			{
-				panel.getInstructions().setVisible(false);
-				panel.getStart().setVisible(true);
-			}
+			panel.getInstructions().setVisible(false);
+			panel.getStart().setVisible(true);
 		}
 		
 		popMatrix();
