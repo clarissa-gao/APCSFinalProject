@@ -32,7 +32,7 @@ public class Panel extends JPanel implements ActionListener
 		
 		setLayout(null);
 		
-		setBackground(new Color(255, 255, 255));
+		setBackground(new Color(11, 191, 44));
 		
 	//	background = ("space.jpg");
 		  	    
@@ -57,7 +57,7 @@ public class Panel extends JPanel implements ActionListener
 	    instructions.addActionListener(this);
 	    add(instructions);
 	    
-	    name = new JLabel("OUR COOL FINAL PROJECT");
+	    name = new JLabel("SAVE MICKEY AND MINNIE");
 	    name.setFont(new Font("Serif", Font.BOLD, 50));
 	    name.setBounds(175, -375, 1000, 900);
 	    add(name);

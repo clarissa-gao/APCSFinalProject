@@ -59,7 +59,7 @@ public class Grid extends PApplet
 		counter = 0;
 
 		//fire
-		for (int i=0; i<15; i++) 
+		for (int i=0; i<25; i++) 
 		{
 			int rx = (int)(Math.random()*25);
 			int ry = (int)(Math.random()*25);

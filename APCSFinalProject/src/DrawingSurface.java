@@ -1,12 +1,10 @@
 
+
 import java.awt.Font;
 import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
-
-import javax.swing.JButton;
-
 import processing.core.PApplet;
 import processing.core.PImage;
 
@@ -23,7 +21,7 @@ public class DrawingSurface extends PApplet {
 	public static final int DRAWING_HEIGHT = 600;
 
 	private Grid g;
-	private boolean canMove, timeLeft, done, shiftPressed;
+	private boolean canMove, timeLeft, done, shiftPressed, gameOver;
 	private Obstruction o;
 	private long counter;
 	private int time, numCollectablesDrawn;
@@ -33,6 +31,7 @@ public class DrawingSurface extends PApplet {
 	private Rock r;
 	private Hole hole;
 	private WaterBucket wb;
+	private TimeSystem t;
 	
 	private ArrayList<Integer> keys;
 	private ArrayList<PImage> assets;
@@ -56,6 +55,8 @@ public class DrawingSurface extends PApplet {
 		timeLeft=true;
 		done=false;
 		shiftPressed = false;
+		t = new TimeSystem();
+		gameOver = false;
 	}
 
 
@@ -79,6 +80,9 @@ public class DrawingSurface extends PApplet {
 		shield = new Protective(assets.get(2), 30, 30);
 	}
 	
+	public void makeHole(){
+		hole = new Hole(assets.get(5), 30, 30);
+	}
 	
 	public void runMe() {
 		runSketch();
@@ -91,11 +95,13 @@ public class DrawingSurface extends PApplet {
 		assets.add(loadImage("mshield.gif"));
 		assets.add(loadImage("stone.png"));
 		assets.add(loadImage("waterbucket.png"));
+		assets.add(loadImage("hole.png"));
 		makeObstruc();
 		makePotion();
 		makeRock();
 		makeShield();
 		makeWaterBucket();
+		makeHole();
 	}
 
 	// The statements in draw() are executed until the 
@@ -108,8 +114,6 @@ public class DrawingSurface extends PApplet {
 		background(11, 191, 44);
 		
 		counter++;
-		if(counter%4==0)
-			time++; 
 
 		pushMatrix();
 
@@ -118,76 +122,94 @@ public class DrawingSurface extends PApplet {
 
 		scale(ratioX, ratioY);
 		
-		//timer
-		if(90-time<=0)
-			timeLeft=false;
-		else
+		
+		int px = g.getpgLocX();
+		int py = g.getpgLocY();
+		int status = g.getStatus(px, py);
+		
+		if (gameOver == false || status == 2)
 		{
-			this.textSize(15);
-			this.text("TIME: " + (90-time), 650, 30);
-			this.noFill();
-			this.rect(580, 5, 200, 50);
-		}
-		
-		g.draw(this, 0, 0, 570, 600);
-		
-		if (counter%6 == 0){
-			for(int i = 0; i < grid.length; i++)	{
-				for(int j = 0; j < grid[0].length; j++){
-					if (grid[i][j] == -1){
-						if (j < grid[0].length-1){
-							grid[i][j]=0;
-							if(grid[i][j+1]==3 || grid[i][j+1]==4 || grid[i][j+1] == 5){
-								boolean drawn = false;
-								while(drawn == false) {
-									int x = (int)(Math.random()*25);
-									int y = (int)(Math.random()*25);
-									if(grid[x][y]==0) {
-										grid[x][y]=3;
-										drawn=true;
+			g.draw(this, 0, 0, 570, 600);
+			
+			int count = 0;
+			if (counter%3 == 0){
+				for(int i = 0; i < grid.length; i++)	{
+					for(int j = 0; j < grid[0].length; j++){
+						if (grid[i][j] == -1)
+						{
+							count++;
+							if (j < grid[0].length-1)
+							{
+								grid[i][j]=0;
+								if(grid[i][j+1]==3 || grid[i][j+1]==4 || grid[i][j+1] == 5)
+								{
+									boolean drawn = false;
+									while(drawn == false) 
+									{
+										int x = (int)(Math.random()*25);
+										int y = (int)(Math.random()*25);
+										if(grid[x][y]==0) 
+										{
+											grid[x][y]=3;
+											drawn=true;
+										}
 									}
+								} 
+								
+								if(grid[i][j+1]==2) 
+								{
+									if(j+1<24)
+										grid[i][j+2]=-1;
+									else
+										grid[i][0]=-1;
 								}
-							} if(grid[i][j+1]==2) {
-								if(j+1<24)
-									grid[i][j+2]=-1;
 								else
-									grid[i][0]=-1;
+								{
+									grid[i][j+1] = -1;
+								}
+								j++;
+							} 
+							else if (j == grid[0].length-1) {
+								grid[i][j]=0;
+								grid[i][0]=-1;
 							}
-							else
-								grid[i][j+1] = -1;
-							j++;
-						} else if (j == grid[0].length-1) {
-							grid[i][j]=0;
-							grid[i][0]=-1;
+						}
+						if(count>25)
+						{
+							j = 25;
+							i = 25;
 						}
 					}
 				}
 			}
-		}
-		
-		for(int i = 0; i < grid.length; i++)
-		{
-			for(int j = 0; j < grid[0].length; j++)
+			
+			for(int i = 0; i < grid.length; i++)
 			{
-				if(grid[i][j] == -1)
-					o.draw(this, (j)*g.getCellWidth(), i*g.getCellHeight(), g.getCellWidth(), g.getCellHeight());
-				else if(grid[i][j]==-2)
-					r.draw(this, g.getCellWidth()*j, g.getCellHeight()*i, g.getCellWidth(), g.getCellHeight());
-				else if(grid[i][j]==3)
-					heal.draw(this, g.getCellWidth()*j, g.getCellHeight()*i, g.getCellWidth(), g.getCellHeight());
-				else if(grid[i][j]==4)
-					shield.draw(this, g.getCellWidth()*j, g.getCellHeight()*i, g.getCellWidth(), g.getCellHeight());
-				else if(grid[i][j]==5)
-					wb.draw(this, g.getCellWidth()*j, g.getCellHeight()*i, g.getCellWidth(), g.getCellHeight());
+				for(int j = 0; j < grid[0].length; j++)
+				{
+					if(grid[i][j] == -1)
+						o.draw(this, (j)*g.getCellWidth(), i*g.getCellHeight(), g.getCellWidth(), g.getCellHeight());
+					else if(grid[i][j]==-2)
+						r.draw(this, g.getCellWidth()*j, g.getCellHeight()*i, g.getCellWidth(), g.getCellHeight());
+					else if(grid[i][j]==-3)
+						hole.draw(this, g.getCellWidth()*j, g.getCellHeight()*i, g.getCellWidth(), g.getCellHeight());
+					else if(grid[i][j]==3)
+						heal.draw(this, g.getCellWidth()*j, g.getCellHeight()*i, g.getCellWidth(), g.getCellHeight());
+					else if(grid[i][j]==4)
+						shield.draw(this, g.getCellWidth()*j, g.getCellHeight()*i, g.getCellWidth(), g.getCellHeight());
+					else if(grid[i][j]==5)
+						wb.draw(this, g.getCellWidth()*j, g.getCellHeight()*i, g.getCellWidth(), g.getCellHeight());
+				}
 			}
 		}
-		
+			
 		//draws collectables box
 		this.stroke(0);
 		this.fill(255);
 		this.rect(585, 350, 200, 200);
 		this.fill(0);
-		this.text("Items Collected:", 625, 375);
+		this.textSize(20);
+		this.text("Items Collected:", 600, 375);
 		this.text(g.getNumCollected()+"/6", 675, 400);
 		if(g.getNumCollected()==6 && done == false)
 		{
@@ -212,16 +234,49 @@ public class DrawingSurface extends PApplet {
 			}
 		}
 		
-		//health system
-		int px = g.getpgLocX();
-		int py = g.getpgLocY();
-		int status = g.getStatus(px, py);
+		//timer
+		boolean timeLeft = t.isTimeUp();
+		if(timeLeft == false)
+		{
+			gameOver = true;
+		}
+		t.draw(this);
+
+		if (status == -3)
+		{
+			boolean hasMoved = false;
+			while(hasMoved == false)
+			{
+				int x = (int)(Math.random()*25);
+				int y = (int)(Math.random()*25);
+				if (grid[x][y] == 0)
+				{
+					g.setpgLoxX(x);
+					g.setpgLoxY(y);
+					
+					g.setPlayerX((x)*g.getCellWidth()-10);
+					g.setPlayerY(y*g.getCellHeight()-20);
+					
+					hasMoved = true;
+				}
+			}
+		}
+		
+		if(status == -1 || status == -2)
+		{
+			if(status == -1)
+			{
+				
+			}
+			gameOver = true;
+		}
+		
 		this.stroke(0);
 		h.draw(this, 585, 275, 200, 50);
 		boolean healthLeft = h.healthLeft();
 		if(healthLeft==false)
 		{
-			status = -1;
+			gameOver = true;
 		}
 		
 		if (status == 2)
@@ -229,65 +284,42 @@ public class DrawingSurface extends PApplet {
 			canMove = false;
 			this.fill(200);
 			this.stroke(200);
-			this.rect(200, 200, 400, 225);
+			this.rect(60, 210, 400, 225);
 			this.fill(0);
 			this.textSize(75);
-			this.text("YOU WIN!", 225, 275);
+			this.text("YOU WIN!", 70, 285);
 			this.fill(255, 0, 0);
-			this.rect(300, 300, 200, 100);
+			this.rect(110, 320, 300, 75);
 			this.fill(0);
-			this.textSize(40);
-			this.text("QUIT", 350, 360);
+			this.textSize(25);
+			this.text("Press Anywhere to Quit", 120, 370);
+			
+			this.text("Game Summary", 160, 290);
+			
+			
 			if (this.mousePressed)
 			{
-				if (mouseX >= 300 && mouseX <= 500 && mouseY >= 300 && mouseY <= 400)
-				{
-					System.exit(0);
-				}
+				System.exit(0);
 			}
 		}
-		else if ((status == -1 || status == -2) && status != 2)
+		else if (gameOver)
 		{
 			canMove = false;
 			this.fill(200);
 			this.stroke(200);
-			this.rect(200, 200, 400, 225);
+			this.rect(60, 210, 400, 225);
 			this.fill(0);
 			this.textSize(75);
-			this.text("YOU LOSE!", 210, 275);
+			this.text("YOU LOSE!", 70, 285);
 			this.fill(255, 0, 0);
-			this.rect(300, 300, 200, 100);
+			this.rect(110, 320, 300, 75);
 			this.fill(0);
-			this.textSize(40);
-			this.text("QUIT", 350, 360);
+			this.textSize(25);
+			this.text("Press Anywhere to Quit", 120, 370);
+
 			if (this.mousePressed)
 			{
-				if (mouseX >= 300 && mouseX <= 500 && mouseY >= 300 && mouseY <= 400)
-				{
-					System.exit(0);
-				}
-			}
-		}
-		else if (timeLeft==false && status != 2)
-		{
-			canMove = false;
-			this.fill(200);
-			this.stroke(200);
-			this.rect(200, 200, 400, 225);
-			this.fill(0);
-			this.textSize(75);
-			this.text("TIMES UP!", 210, 275);
-			this.fill(255, 0, 0);
-			this.rect(300, 300, 200, 100);
-			this.fill(0);
-			this.textSize(40);
-			this.text("QUIT", 350, 360);
-			if (this.mousePressed)
-			{
-				if (mouseX >= 300 && mouseX <= 500 && mouseY >= 300 && mouseY <= 400)
-				{
-					System.exit(0);
-				}
+				System.exit(0);
 			}
 		}
 		popMatrix();
@@ -317,17 +349,6 @@ public class DrawingSurface extends PApplet {
 		    		g.setPlayerY((g.getPlayerY()+g.getCellHeight()));
 		    		g.setpgLoxY(g.getpgLocY()+1);
 		    }
-		    
-		    if (keyCode == KeyEvent.VK_SHIFT) 
-		    {
-		    		int a = g.getStatus(g.getpgLocX(), g.getpgLocY()-1);
-		    		if(a == -1 && g.hasBucket()==true)
-		    		{
-		    			//this.text("LALALALALA", 100, 100);
-		    			g.setLoc(g.getpgLocX(), g.getpgLocY()-1, 0);
-		    		}
-		    		
-		    }
 		}	
 	}
 
@@ -338,11 +359,5 @@ public class DrawingSurface extends PApplet {
 
 	public boolean isPressed(Integer code) {
 		return keys.contains(code);
-	}
-	
-	public void mouseOverButton(JButton j, Panel p) {
-		if (j.contains(mouseX, mouseY)) {
-			p.changeColor(j);
-		}
 	}
 }
