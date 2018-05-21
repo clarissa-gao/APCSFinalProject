@@ -60,7 +60,7 @@ public class Grid extends PApplet
 
 		for (int i=0; i<20; i++) 
 		{
-			int rx = (int)(Math.random()*25);
+			int rx = (int)(Math.random()*24);
 			int ry = (int)(Math.random()*25);
 			if (grid[rx][ry] == 0) 
 			{

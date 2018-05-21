@@ -25,6 +25,7 @@ public class DrawingSurface extends PApplet {
 	private Obstruction o;
 	private long counter;
 	private int time, numCollectablesDrawn;
+	private long startTime, endTime;
 	private HealthSystem h;
 	private Healing heal;
 	private Protective shield;
@@ -49,10 +50,25 @@ public class DrawingSurface extends PApplet {
 		g = new Grid();
 		canMove = true;
 		//image = this.loadImage("forest.png");
+		time = 120;
+		startTime = System.currentTimeMillis();
+		endTime = (System.currentTimeMillis()+time*1000);
+		counter = 0; //move = 0;
+		timeLeft=true;
+		/*
+		super();
+		assets = new ArrayList<PImage>();
+		keys = new ArrayList<Integer>();
+		//screenRect = new Rectangle(0,0,DRAWING_WIDTH,DRAWING_HEIGHT);
+		g = new Grid();
+		canMove = true;
+		//image = this.loadImage("forest.png");
 		startTime = this.second();
 		counter = 0;
-		time = 0;
-		timeLeft=true;
+		//time = 120;
+		//startTime = System.currentTimeMillis();
+		//endTime = (System.currentTimeMillis()+time*1000);
+		timeLeft=true; */
 		h = g.getHealthSystem();
 		numCollectablesDrawn=0;
 		done=false;
@@ -113,13 +129,17 @@ public class DrawingSurface extends PApplet {
 	// line is executed again.
 	public void draw() 
 	{
+		if (!canMove && this.mousePressed)
+			exit();
+		if (canMove) {
 		// drawing stuff
+			/*
 		counter++;
 		if(counter%10==0)
 		{
 			time++;
 		}
-		
+		*/
 		background(255); 
 
 		pushMatrix();
@@ -130,6 +150,25 @@ public class DrawingSurface extends PApplet {
 		scale(ratioX, ratioY);
 		
 		//timer
+		time = (int)(endTime - System.currentTimeMillis())/1000;
+		if(time<=0)
+		{
+			timeLeft=false;
+		}
+		else
+		{
+			int min = time/60;
+			int sec = time%60;
+			counter*=2;
+			if (sec<10) 
+				this.text("TIME: " + min + ":0" + sec, 650, 30);
+			else
+				this.text("TIME: " + (min + ":" + sec), 650, 30);
+			
+			this.noFill();
+			this.rect(580, 5, 200, 50);
+		}
+		/*
 		if(90-time<=0)
 		{
 			timeLeft=false;
@@ -141,7 +180,7 @@ public class DrawingSurface extends PApplet {
 			this.noFill();
 			this.rect(580, 5, 200, 50);
 		}
-		
+		*/
 		
 		int[][]grid = g.getGrid();
 		g.draw(this, 0, 0, 570, 600);
@@ -277,15 +316,12 @@ public class DrawingSurface extends PApplet {
 			this.text("QUIT", 350, 360);
 			if (this.mousePressed)
 			{
-				if (mouseX >= 300 && mouseX <= 500 && mouseY >= 300 && mouseY <= 400)
-				{
 					System.exit(0);
-				}
 			}
 		}
 		else if (status == -1 || status == -2)
 		{
-			//canMove = false;
+			canMove = false;
 			this.fill(200);
 			this.stroke(200);
 			this.rect(200, 200, 400, 225);
@@ -299,10 +335,7 @@ public class DrawingSurface extends PApplet {
 			this.text("QUIT", 350, 360);
 			if (this.mousePressed)
 			{
-				if (mouseX >= 300 && mouseX <= 500 && mouseY >= 300 && mouseY <= 400)
-				{
 					System.exit(0);
-				}
 			}
 		}
 		
@@ -322,13 +355,14 @@ public class DrawingSurface extends PApplet {
 			this.text("QUIT", 350, 360);
 			if (this.mousePressed)
 			{
-				if (mouseX >= 300 && mouseX <= 500 && mouseY >= 300 && mouseY <= 400)
-				{
+				//if (mouseX >= 300 && mouseX <= 500 && mouseY >= 300 && mouseY <= 400)
+				//{
 					System.exit(0);
-				}
+				//}
 			}
 		}
 		popMatrix();
+		}
 	}
 
 	public void keyPressed() {

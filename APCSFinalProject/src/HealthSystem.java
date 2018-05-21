@@ -40,15 +40,15 @@ public class HealthSystem extends PApplet
 		String h = "";
 		marker.rect(x, y, width-otherCounter+change, height);
 		if(width-otherCounter+change < width/5)
-			h = "About to die";
+			h = "death is knocking";
 		else if(width-otherCounter+change < width*2/5)
-			h = "Not healthy";
+			h = "oof not great";
 		else if(width-otherCounter+change < width*3/5)
-			h = "Ok";
+			h = "decent";
 		else if (width-otherCounter+change < width*4/5)
-			h = "Healthy";
+			h = "pretty great";
 		else
-			h = "Amazing";
+			h = "living the life";
 		
 		marker.fill(0);
 		marker.text("Health Status: " + h, 585, 270);
