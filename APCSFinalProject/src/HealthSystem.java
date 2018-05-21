@@ -2,11 +2,12 @@ import processing.core.PApplet;
 
 public class HealthSystem extends PApplet
 {
-	private float x, y;
+	private float x, y, health;
 	private int width, height;
 	private int lives, counter, otherCounter;
 	private boolean healthLeft;
 	private int change;
+	
 	
 	public HealthSystem()
 	{
@@ -31,14 +32,19 @@ public class HealthSystem extends PApplet
 		if(width-otherCounter+change <=0)
 		{
 			healthLeft = false;
+			health = 0;
 		}
-
+		else
+		{
+			health = width-otherCounter+change;
+		}
+		
 		marker.noFill();
 		marker.rect(x, y, width, height);
 		marker.fill(255, 0, 0);
 		//System.out.println(change);
 		String h = "";
-		marker.rect(x, y, width-otherCounter+change, height);
+		marker.rect(x, y, health, height);
 		if(width-otherCounter+change < width/5)
 			h = "About to die";
 		else if(width-otherCounter+change < width*2/5)

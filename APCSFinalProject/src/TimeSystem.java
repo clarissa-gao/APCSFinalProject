@@ -16,7 +16,7 @@ public class TimeSystem extends PApplet
 	public void draw(PApplet marker)
 	{
 		counter++;
-		if(counter % 1 == 0)
+		if(counter % 3 == 0)
 		{
 			time++;
 		}
@@ -26,19 +26,19 @@ public class TimeSystem extends PApplet
 			timeLeft = false;
 			marker.stroke(0);
 			marker.fill(255);
-			marker.rect(580, 15, 150, 60);
+			marker.rect(580, 15, 210, 50);
 			marker.textSize(25);
 			marker.fill(0);
-			marker.text("TIME'S UP", 595, 50);
+			marker.text("TIME'S UP", 620, 50);
 		}
 		else
 		{
 			marker.stroke(0);
 			marker.fill(255);
-			marker.rect(580, 15, 150, 60);
+			marker.rect(580, 15, 210, 50);
 			marker.textSize(25);
 			marker.fill(0);
-			marker.text("TIME: " + (90-time), 603, 50);
+			marker.text("TIME: " + (90-time), 625, 50);
 		}
 	}
 	
