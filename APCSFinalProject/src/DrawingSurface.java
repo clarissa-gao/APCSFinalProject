@@ -32,6 +32,7 @@ public class DrawingSurface extends PApplet {
 	private Hole hole;
 	private WaterBucket wb;
 	private TimeSystem t;
+	private PImage p;
 	
 	private ArrayList<Integer> keys;
 	private ArrayList<PImage> assets;
@@ -102,6 +103,7 @@ public class DrawingSurface extends PApplet {
 		makeShield();
 		makeWaterBucket();
 		makeHole();
+		p = loadImage("space.jpg");
 	}
 
 	// The statements in draw() are executed until the 
