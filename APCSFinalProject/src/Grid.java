@@ -310,8 +310,6 @@ public class Grid extends PApplet
 
 		player = new Character(marker.loadImage("mouse.png"), (int)playerX, (int)playerY);
 		player.draw(marker);	
-		player2 = new Character(marker.loadImage("pokepepe.png"), (int)player2X, (int)player2Y);
-		player2.draw(marker);
 		if (grid[this.pgLocY][this.pgLocX]==3 || grid[this.pgLocY][this.pgLocX]==4 || grid[this.pgLocY][this.pgLocX]==5)
 		{
 			h.change(20);
