@@ -14,7 +14,8 @@ import processing.core.PApplet;
 import processing.core.PImage;
 
 /**
- * 
+ * @author Alex Wang
+ * Class is the main class with the main method. This class represents the starting screen, and holds data from all of the other classes.
  */
 public class Panel extends JPanel implements ActionListener
 {
@@ -32,7 +33,11 @@ public class Panel extends JPanel implements ActionListener
 		
 		setLayout(null);
 		
+<<<<<<< HEAD
 		setBackground(new Color(11, 191, 44));
+=======
+		setBackground(new Color(255, 255, 255));
+>>>>>>> branch 'master' of https://github.com/clarissa-gao/APCSFinalProject.git
 		
 	//	background = ("space.jpg");
 		  	    
@@ -137,6 +142,14 @@ public class Panel extends JPanel implements ActionListener
 	    initial.setVisible(true);
 	}
 	
+<<<<<<< HEAD
+=======
+
+	public void changeColor(JButton j) {
+		j.setBackground(new Color((int)j.getBackground().getRed()-10, (int)j.getBackground().getGreen()-10, (int)j.getBackground().getBlue()-10));
+	}
+}
+>>>>>>> branch 'master' of https://github.com/clarissa-gao/APCSFinalProject.git
 
 	public void changeColor(JButton j) {
 		j.setBackground(new Color((int)j.getBackground().getRed()-10, (int)j.getBackground().getGreen()-10, (int)j.getBackground().getBlue()-10));

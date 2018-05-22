@@ -1,5 +1,9 @@
 import processing.core.PApplet;
 
+/**
+*@author Alex Wang
+*Represents the timer in the program that counts down fro 90 to 0 seconds
+*/
 public class TimeSystem extends PApplet
 {
 	private int x, y, width, height;

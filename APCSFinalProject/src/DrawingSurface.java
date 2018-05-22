@@ -11,9 +11,10 @@ import processing.core.PImage;
 /**
  * 
  * @author Alex Wang
- * Coded May 10th, 2018
+ * Coded May 21th, 2018
  * 
- * The surface of the actual game. This surface has a grid, and also illustrates other data that is part of the game (ex: the items that have been collected)
+ * The surface of the actual game. This surface has a grid, and also illustrates other data that is part of the game (ex: the items that have been collected and the obstructions). 
+ * this area allows the player to move Mickey with the keyboard
  */
 public class DrawingSurface extends PApplet {
 
