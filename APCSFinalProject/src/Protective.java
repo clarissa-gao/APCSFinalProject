@@ -3,6 +3,10 @@ import java.util.ArrayList;
 import processing.core.PApplet;
 import processing.core.PImage;
 
+/**
+* @author clarissa gao
+* One of the collectables that is in the form of a shield
+*/
 public class Protective extends Collectable{
 	
 	public static final int PRO_WIDTH = 45;

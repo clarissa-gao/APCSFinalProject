@@ -63,7 +63,8 @@ public class Grid extends PApplet
 		
 		counter = 0;
 
-		for (int i=0; i<20; i++) 
+		//fire
+		for (int i=0; i<25; i++) 
 		{
 			int rx = (int)(Math.random()*24);
 			int ry = (int)(Math.random()*25);
@@ -86,6 +87,21 @@ public class Grid extends PApplet
 			{
 				numObstructions++;
 				grid[rx][ry]=-2;
+			}
+			else 
+			{
+				i--;
+			}
+		}
+		
+		for (int i=0; i<7; i++) 
+		{
+			int rx = (int)(Math.random()*25);
+			int ry = (int)(Math.random()*25);
+			if (grid[rx][ry] == 0) 
+			{
+				numObstructions++;
+				grid[rx][ry]=-3;
 			}
 			else 
 			{
@@ -298,7 +314,7 @@ public class Grid extends PApplet
 		player2.draw(marker);
 		if (grid[this.pgLocY][this.pgLocX]==3 || grid[this.pgLocY][this.pgLocX]==4 || grid[this.pgLocY][this.pgLocX]==5)
 		{
-			h.change(10);
+			h.change(20);
 			isCollected = true;
 			if(grid[this.pgLocY][this.pgLocX]==3)
 				collectableImages.add(potion);

@@ -2,6 +2,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,9 +11,11 @@ import javax.swing.*;
 
 import processing.awt.PSurfaceAWT;
 import processing.core.PApplet;
+import processing.core.PImage;
 
 /**
- * 
+ * @author Alex Wang
+ * Class is the main class with the main method. This class represents the starting screen, and holds data from all of the other classes.
  */
 public class Panel extends JPanel implements ActionListener
 {
@@ -22,6 +25,7 @@ public class Panel extends JPanel implements ActionListener
 	private static JFrame initial, w, i;
 	private JLabel name;
 	private static DrawingSurface drawing = new DrawingSurface();
+	private PImage background;
 	
 	public Panel()
 	{
@@ -29,8 +33,8 @@ public class Panel extends JPanel implements ActionListener
 		
 		setLayout(null);
 		
-		setBackground(new Color(255, 255, 255));
-		  	    
+		setBackground(new Color(11, 191, 44));
+	    
 		Font startFont = new Font("Serif", Font.ITALIC, 50);
 	    start = new JButton("Start");
 		start.setBackground(new Color(175, 244, 255)); 
@@ -52,7 +56,7 @@ public class Panel extends JPanel implements ActionListener
 	    instructions.addActionListener(this);
 	    add(instructions);
 	    
-	    name = new JLabel("OUR COOL FINAL PROJECT");
+	    name = new JLabel("SAVE MICKEY AND MINNIE");
 	    name.setFont(new Font("Serif", Font.BOLD, 50));
 	    name.setBounds(175, -375, 1000, 900);
 	    add(name);
@@ -130,5 +134,11 @@ public class Panel extends JPanel implements ActionListener
 	    initial.add(openingScreen);
 	    initial.add(instructionsScreen);
 	    initial.setVisible(true);
+	}
+	
+
+
+	public void changeColor(JButton j) {
+		j.setBackground(new Color((int)j.getBackground().getRed()-10, (int)j.getBackground().getGreen()-10, (int)j.getBackground().getBlue()-10));
 	}
 }

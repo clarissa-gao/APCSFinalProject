@@ -7,7 +7,6 @@ import processing.core.PImage;
 /**
  * 
  * @author Clarissa Gao
- * Coded 5/10
  *
  *Collectable is the superclass for all collectable objects represented by a png image
  *that enables the character to collect it and have interactions with other objects with it.
