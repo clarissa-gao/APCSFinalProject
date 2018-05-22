@@ -33,14 +33,8 @@ public class Panel extends JPanel implements ActionListener
 		
 		setLayout(null);
 		
-<<<<<<< HEAD
 		setBackground(new Color(11, 191, 44));
-=======
-		setBackground(new Color(255, 255, 255));
->>>>>>> branch 'master' of https://github.com/clarissa-gao/APCSFinalProject.git
-		
-	//	background = ("space.jpg");
-		  	    
+	    
 		Font startFont = new Font("Serif", Font.ITALIC, 50);
 	    start = new JButton("Start");
 		start.setBackground(new Color(175, 244, 255)); 
@@ -142,16 +136,10 @@ public class Panel extends JPanel implements ActionListener
 	    initial.setVisible(true);
 	}
 	
-<<<<<<< HEAD
-=======
+
 
 	public void changeColor(JButton j) {
 		j.setBackground(new Color((int)j.getBackground().getRed()-10, (int)j.getBackground().getGreen()-10, (int)j.getBackground().getBlue()-10));
 	}
 }
->>>>>>> branch 'master' of https://github.com/clarissa-gao/APCSFinalProject.git
 
-	public void changeColor(JButton j) {
-		j.setBackground(new Color((int)j.getBackground().getRed()-10, (int)j.getBackground().getGreen()-10, (int)j.getBackground().getBlue()-10));
-	}
-}

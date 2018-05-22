@@ -13,13 +13,6 @@ public class HealthSystem extends PApplet
 	private boolean healthLeft;
 	private int change;
 	
-<<<<<<< HEAD
-	
-=======
-	/**
-	* Constructs and HealthSystem Object
-	*/
->>>>>>> branch 'master' of https://github.com/clarissa-gao/APCSFinalProject.git
 	public HealthSystem()
 	{
 		x = 600;
