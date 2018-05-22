@@ -2,6 +2,10 @@ import java.awt.geom.Rectangle2D;
 import processing.core.PApplet;
 import processing.core.PImage;
 
+/**
+* @author Karen Li
+* Class that represents the main outline of an obstruction (things that kill the character when in contact). This is an abstract class, so many others extend from it.
+*/
 public abstract class Obstruction extends Sprite
 {
 	private int width, height;
