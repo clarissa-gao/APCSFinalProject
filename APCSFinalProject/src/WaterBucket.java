@@ -6,7 +6,7 @@ import processing.core.PImage;
  * 
  * @author Alex Wang
  * 
- * Collectable that is a healing potion. This potion can save the player and boost their health if they are about to/almost died.
+ * Collectable that is a healing potion. This potion can save the player and boost their health if they are about to/almost die
  */
 public class WaterBucket extends Collectable{
 	
