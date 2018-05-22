@@ -8,6 +8,10 @@ import processing.core.PApplet;
 import processing.core.PFont;
 import processing.core.PImage;
 
+/**
+* @author Alex Wang
+* Class that represents the window that displays instructions to play the game. Details on keyboard controls and how to win/lose are here.
+*/
 public class InstructionsSurface extends PApplet
 {
 	
