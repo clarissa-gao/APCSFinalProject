@@ -129,7 +129,7 @@ public class DrawingSurface extends PApplet {
 	// line is executed again.
 	public void draw() 
 	{
-		if (!canMove && this.mousePressed)
+		if (!canMove && mousePressed)
 			exit();
 		if (canMove) {
 		// drawing stuff
@@ -388,6 +388,27 @@ public class DrawingSurface extends PApplet {
 		    {
 		    		g.setPlayerY((g.getPlayerY()+g.getCellHeight()));
 		    		g.setpgLoxY(g.getpgLocY()+1);
+		    }
+		    
+		    if (keyCode == KeyEvent.VK_D && g.getpgLoc2X()<g.getColumn()-1) 
+		    {	 
+		    		g.setPlayer2X(g.getPlayer2X()+g.getCellWidth());
+		    		g.setpgLoc2X(g.getpgLoc2X()+1);
+			}
+		    else if (keyCode == KeyEvent.VK_A && g.getpgLoc2X()>0)
+		    {
+		    		g.setPlayer2X((g.getPlayer2X()-g.getCellWidth()));
+		    		g.setpgLoc2X(g.getpgLoc2X()-1);
+		    }
+		    else if (keyCode == KeyEvent.VK_W && g.getpgLoc2Y() > 0)
+		    {
+		    		g.setPlayer2Y((g.getPlayer2Y()-g.getCellHeight()));
+		    		g.setpgLoc2Y(g.getpgLoc2Y()-1);
+		    }
+		    else if (keyCode == KeyEvent.VK_S && g.getpgLoc2Y()<g.getRow()-1)
+		    {
+		    		g.setPlayer2Y((g.getPlayer2Y()+g.getCellHeight()));
+		    		g.setpgLoc2Y(g.getpgLoc2Y()+1);
 		    }
 		    
 		    if (keyCode == KeyEvent.VK_SHIFT) 

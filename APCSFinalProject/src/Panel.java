@@ -31,7 +31,7 @@ public class Panel extends JPanel implements ActionListener
 		
 		setBackground(new Color(255, 255, 255));
 		  	    
-		Font startFont = new Font("Serif", Font.ROMAN_BASELINE, 50);
+		Font startFont = new Font("Serif", Font.ITALIC, 50);
 	    start = new JButton("Start");
 		start.setBackground(new Color(175, 244, 255)); 
 		start.setOpaque(true); 
@@ -108,8 +108,7 @@ public class Panel extends JPanel implements ActionListener
 	    w.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    openingScreen = new Panel();
 	    instructionsScreen = new Panel();
-	    w.setResizable(true);
-	    
+	    w.setResizable(true); 
 	    //w.setVisible(false);
 	    
 	    
@@ -133,4 +132,3 @@ public class Panel extends JPanel implements ActionListener
 	    initial.setVisible(true);
 	}
 }
-
