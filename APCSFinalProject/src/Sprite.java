@@ -6,7 +6,7 @@ import processing.core.PImage;
 /*
  * Represents a moving image.
  *
- * by: Shelby
+ * @author Shelby
  */
  
 public class Sprite extends Rectangle2D.Double {
