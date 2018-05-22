@@ -20,9 +20,9 @@ public class Grid extends PApplet
 	private int [][] grid;
 	
 	// 0 = empty, 2 = destination, -1 = fire, 3 = potion, 4 = shield, 5 = water bucket, -2 = black hole
-	private int row, column, pgLocX, pgLocY, numObstructions, collectsDrawn, numCollected; //player grid loc
-	private Character player;
-	private float cellWidth, cellHeight, playerX, playerY;
+	private int row, column, pgLocX, pgLocY, pgLoc2X, pgLoc2Y, numObstructions, collectsDrawn, numCollected; //player grid loc
+	private Character player, player2;
+	private float cellWidth, cellHeight, playerX, playerY, player2X, player2Y;
 	private long counter, move;
 	private boolean obstructionsHaveMoved, isCollected, showFinal;
 	private boolean hasBucket;
@@ -55,6 +55,11 @@ public class Grid extends PApplet
 		playerY = (int)((row-1)*22.8)+10;
 		pgLocX = column/2;
 		pgLocY = row-1;
+		
+		player2X = (int)(column/2 * 24);
+		player2Y = (int)((row-1)*22.8)+10;
+		pgLoc2X = column/2;
+		pgLoc2Y = row-1;
 		
 		counter = 0;
 
@@ -135,9 +140,17 @@ public class Grid extends PApplet
 		return pgLocX;
 	}
 	
+	public int getpgLoc2X() {
+		return pgLoc2X;
+	}
+	
 	public int getpgLocY()
 	{
 		return pgLocY;
+	}
+	
+	public int getpgLoc2Y() {
+		return pgLoc2Y;
 	}
 	
 	public float getPlayerX()
@@ -145,9 +158,17 @@ public class Grid extends PApplet
 		return playerX;
 	}
 	
+	public float getPlayer2X() {
+		return player2X;
+	}
+	
 	public float getPlayerY()
 	{
 		return playerY;
+	}
+	
+	public float getPlayer2Y() {
+		return player2Y;
 	}
 	
 	public void setPlayerX(float x)
@@ -155,9 +176,17 @@ public class Grid extends PApplet
 		playerX = x;
 	}
 	
+	public void setPlayer2X(float x) {
+		player2X = x;
+	}
+	
 	public void setPlayerY(float y)
 	{
 		playerY = y;
+	}
+	
+	public void setPlayer2Y(float y) {
+		player2Y = y;
 	}
 	
 	public void setpgLoxY(int y)
@@ -165,9 +194,17 @@ public class Grid extends PApplet
 		pgLocY = y;
 	}
 	
+	public void setpgLoc2Y(int y) {
+		pgLoc2Y = y;
+	}
+	
 	public void setpgLoxX(int x)
 	{
 		pgLocX = x;
+	}
+	
+	public void setpgLoc2X(int x) {
+		pgLoc2Y = x;
 	}
 	
 	public int getStatus (int x, int y)
@@ -273,6 +310,8 @@ public class Grid extends PApplet
 
 		player = new Character(marker.loadImage("mouse.png"), (int)playerX, (int)playerY);
 		player.draw(marker);	
+		player2 = new Character(marker.loadImage("pokepepe.png"), (int)player2X, (int)player2Y);
+		player2.draw(marker);
 		if (grid[this.pgLocY][this.pgLocX]==3 || grid[this.pgLocY][this.pgLocX]==4 || grid[this.pgLocY][this.pgLocX]==5)
 		{
 			h.change(20);

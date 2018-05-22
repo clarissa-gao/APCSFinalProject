@@ -142,4 +142,3 @@ public class Panel extends JPanel implements ActionListener
 		j.setBackground(new Color((int)j.getBackground().getRed()-10, (int)j.getBackground().getGreen()-10, (int)j.getBackground().getBlue()-10));
 	}
 }
-

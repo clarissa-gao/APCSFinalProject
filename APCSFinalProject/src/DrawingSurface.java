@@ -90,7 +90,7 @@ public class DrawingSurface extends PApplet {
 		runSketch();
 	}
 	
-
+ 
 	public void setup() {
 		assets.add(loadImage("fire.png"));
 		assets.add(loadImage("potion.png"));
