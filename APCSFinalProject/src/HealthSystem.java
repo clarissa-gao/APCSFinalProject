@@ -1,5 +1,10 @@
 import processing.core.PApplet;
 
+
+/**
+* @author Alex Wang
+* Class that represents the character's health. As the program runs, the character's health declines and this class draws this health.
+*/
 public class HealthSystem extends PApplet
 {
 	private float x, y;
@@ -8,6 +13,9 @@ public class HealthSystem extends PApplet
 	private boolean healthLeft;
 	private int change;
 	
+	/**
+	* Constructs and HealthSystem Object
+	*/
 	public HealthSystem()
 	{
 		x = 600;
