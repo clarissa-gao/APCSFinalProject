@@ -14,7 +14,8 @@ import processing.core.PApplet;
 import processing.core.PImage;
 
 /**
- * 
+ * @author Alex Wang
+ * Class is the main class with the main method. This class represents the starting screen, and holds data from all of the other classes.
  */
 public class Panel extends JPanel implements ActionListener
 {
