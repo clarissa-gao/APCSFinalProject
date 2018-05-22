@@ -88,6 +88,21 @@ public class Grid extends PApplet
 				i--;
 			}
 		}
+		
+		for (int i=0; i<7; i++) 
+		{
+			int rx = (int)(Math.random()*25);
+			int ry = (int)(Math.random()*25);
+			if (grid[rx][ry] == 0) 
+			{
+				numObstructions++;
+				grid[rx][ry]=-3;
+			}
+			else 
+			{
+				i--;
+			}
+		}
 
 		
 		int x = (int)(Math.random()*25);
