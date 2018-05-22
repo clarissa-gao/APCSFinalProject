@@ -205,6 +205,10 @@ public class DrawingSurface extends PApplet {
 				}
 			}
 		}
+		
+		this.textSize(10);
+		String s = "Help Mickey find Minnie in all of this\nChaos! Navigate through the grid and\npick up 6 collectables. Avoid the fire and\nrocks. If you land on a black hole, you\nwill be randomly transported to another\nplace. Once you get the collectables\nMinnie will appear and you have\nSAVED THE OTP!!";
+		this.text(s, 585, 100);
 			
 		//draws collectables box
 		this.stroke(0);
