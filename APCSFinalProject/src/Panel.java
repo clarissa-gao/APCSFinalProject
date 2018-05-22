@@ -114,7 +114,7 @@ public class Panel extends JPanel implements ActionListener
 	    instructionsScreen = new Panel();
 	    w.setResizable(true); 
 	    //w.setVisible(false);
-	     
+	    
 	    
 	    InstructionsSurface a = new InstructionsSurface();
 		PApplet.runSketch(new String[]{""}, a);
