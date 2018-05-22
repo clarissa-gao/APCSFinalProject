@@ -11,9 +11,10 @@ import processing.core.PImage;
 /**
  * 
  * @author Alex Wang
- * Coded May 10th, 2018
+ * Coded May 21th, 2018
  * 
- * The surface of the actual game. This surface has a grid, and also illustrates other data that is part of the game (ex: the items that have been collected)
+ * The surface of the actual game. This surface has a grid, and also illustrates other data that is part of the game (ex: the items that have been collected and the obstructions). 
+ * this area allows the player to move Mickey with the keyboard
  */
 public class DrawingSurface extends PApplet {
 
@@ -21,23 +22,23 @@ public class DrawingSurface extends PApplet {
 	public static final int DRAWING_HEIGHT = 600;
 
 	private Grid g;
-	private boolean canMove, timeLeft, done, shiftPressed;
+	private boolean canMove, timeLeft, done, shiftPressed, gameOver;
 	private Obstruction o;
 	private long counter;
 	private int time, numCollectablesDrawn;
-	private long startTime, endTime;
 	private HealthSystem h;
 	private Healing heal;
 	private Protective shield;
+	private Rock r;
 	private Hole hole;
 	private WaterBucket wb;
+	private TimeSystem t;
+	private PImage p;
 	
-//	private Mario mario;
-	private ArrayList<Shape> obstacles;
-
 	private ArrayList<Integer> keys;
-	
 	private ArrayList<PImage> assets;
+	
+	private int [][] grid;
 
 	/**
 	 * Constructs a Drawing Surface Class where the grid, the grids components, and other data is drawn on the screen.
@@ -46,33 +47,18 @@ public class DrawingSurface extends PApplet {
 		super();
 		assets = new ArrayList<PImage>();
 		keys = new ArrayList<Integer>();
-		//screenRect = new Rectangle(0,0,DRAWING_WIDTH,DRAWING_HEIGHT);
 		g = new Grid();
-		canMove = true;
-		//image = this.loadImage("forest.png");
-		time = 120;
-		startTime = System.currentTimeMillis();
-		endTime = (System.currentTimeMillis()+time*1000);
-		counter = 0; //move = 0;
-		timeLeft=true;
-		/*
-		super();
-		assets = new ArrayList<PImage>();
-		keys = new ArrayList<Integer>();
-		//screenRect = new Rectangle(0,0,DRAWING_WIDTH,DRAWING_HEIGHT);
-		g = new Grid();
-		canMove = true;
-		//image = this.loadImage("forest.png");
-		startTime = this.second();
+		grid = g.getGrid();
 		counter = 0;
-		//time = 120;
-		//startTime = System.currentTimeMillis();
-		//endTime = (System.currentTimeMillis()+time*1000);
-		timeLeft=true; */
+		time = 0;
 		h = g.getHealthSystem();
 		numCollectablesDrawn=0;
+		canMove = true;
+		timeLeft=true;
 		done=false;
 		shiftPressed = false;
+		t = new TimeSystem();
+		gameOver = false;
 	}
 
 
@@ -80,47 +66,45 @@ public class DrawingSurface extends PApplet {
 		o = new Fire(assets.get(0), 30, 30);
 	}
 	
-	public void makePotion()
-	{
+	public void makePotion(){
 		heal = new Healing(assets.get(1), 30, 30);
 	}
 	
-	public void makeHole()
-	{
-		hole = new Hole(assets.get(3), 30, 30);
+	public void makeRock()	{
+		r = new Rock(assets.get(3), 30, 30);
 	}
 	
-	public void makeWaterBucket()
-	{
+	public void makeWaterBucket(){
 		wb = new WaterBucket(assets.get(4), 30, 30);
 	}
 	
-	public void makeShield()
-	{
+	public void makeShield(){
 		shield = new Protective(assets.get(2), 30, 30);
+	}
+	
+	public void makeHole(){
+		hole = new Hole(assets.get(5), 30, 30);
 	}
 	
 	public void runMe() {
 		runSketch();
 	}
 	
-	// The statements in the setup() function 
-	// execute once when the program begins
+ 
 	public void setup() {
-		//size(0,0,PApplet.P3D);
-		//assets.add(loadImage("mario.png"));
-		//spawnNewMario();
-		//assets.add(loadImage("mouse.png"));
 		assets.add(loadImage("fire.png"));
 		assets.add(loadImage("potion.png"));
-		assets.add(loadImage("shield.jpg"));
-		assets.add(loadImage("hole.png"));
+		assets.add(loadImage("mshield.gif"));
+		assets.add(loadImage("stone.png"));
 		assets.add(loadImage("waterbucket.png"));
+		assets.add(loadImage("hole.png"));
 		makeObstruc();
 		makePotion();
-		makeHole();
+		makeRock();
 		makeShield();
 		makeWaterBucket();
+		makeHole();
+		p = loadImage("space.jpg");
 	}
 
 	// The statements in draw() are executed until the 
@@ -129,18 +113,10 @@ public class DrawingSurface extends PApplet {
 	// line is executed again.
 	public void draw() 
 	{
-		if (!canMove && mousePressed)
-			exit();
-		if (canMove) {
-		// drawing stuff
-			/*
+
+		background(11, 191, 44);
+		
 		counter++;
-		if(counter%10==0)
-		{
-			time++;
-		}
-		*/
-		background(255); 
 
 		pushMatrix();
 
@@ -149,120 +125,98 @@ public class DrawingSurface extends PApplet {
 
 		scale(ratioX, ratioY);
 		
-		//timer
-		time = (int)(endTime - System.currentTimeMillis())/1000;
-		if(time<=0)
+		
+		int px = g.getpgLocX();
+		int py = g.getpgLocY();
+		int status = g.getStatus(px, py);
+		
+		if (gameOver == false || status == 2)
 		{
-			timeLeft=false;
-		}
-		else
-		{
-			int min = time/60;
-			int sec = time%60;
-			counter*=2;
-			if (sec<10) 
-				this.text("TIME: " + min + ":0" + sec, 650, 30);
-			else
-				this.text("TIME: " + (min + ":" + sec), 650, 30);
+			g.draw(this, 0, 0, 570, 600);
 			
-			this.noFill();
-			this.rect(580, 5, 200, 50);
-		}
-		/*
-		if(90-time<=0)
-		{
-			timeLeft=false;
-		}
-		else
-		{
-			this.textSize(15);
-			this.text("TIME: " + (90-time), 650, 30);
-			this.noFill();
-			this.rect(580, 5, 200, 50);
-		}
-		*/
-		
-		int[][]grid = g.getGrid();
-		g.draw(this, 0, 0, 570, 600);
-		
-		if (counter%15 == 0)
-		{
-			for(int i = 0; i < grid.length; i++)
-			{
-				for(int j = 0; j < grid[0].length; j++)
-				{
-					if (grid[i][j] == -1)
-					{
-						if (j < grid[0].length-1)
+			int count = 0;
+			if (counter%3 == 0){
+				for(int i = 0; i < grid.length; i++)	{
+					for(int j = 0; j < grid[0].length; j++){
+						if (grid[i][j] == -1)
 						{
-							grid[i][j]=0;
-							if(grid[i][j+1]==3 || grid[i][j+1]==4)
+							count++;
+							if (j < grid[0].length-1)
 							{
-								grid[(int)Math.random()*25][(int)Math.random()*25]=3;
+								grid[i][j]=0;
+								if(grid[i][j+1]==3 || grid[i][j+1]==4 || grid[i][j+1] == 5)
+								{
+									boolean drawn = false;
+									while(drawn == false) 
+									{
+										int x = (int)(Math.random()*25);
+										int y = (int)(Math.random()*25);
+										if(grid[x][y]==0) 
+										{
+											grid[x][y]=3;
+											drawn=true;
+										}
+									}
+								} 
+								
+								if(grid[i][j+1]==2) 
+								{
+									if(j+1<24)
+										grid[i][j+2]=-1;
+									else
+										grid[i][0]=-1;
+								}
+								else
+								{
+									grid[i][j+1] = -1;
+								}
+								j++;
+							} 
+							else if (j == grid[0].length-1) {
+								grid[i][j]=0;
+								grid[i][0]=-1;
 							}
-							if(grid[i][j+1]==2)
-							{
-								grid[i][j+2]=-1;
-							}
-							else
-								grid[i][j+1] = -1;
-							j++;
 						}
-						else if (j == grid[0].length-1)
+						if(count>25)
 						{
-							grid[i][j]=0;
-							grid[i][0]=-1;
+							j = 25;
+							i = 25;
 						}
 					}
 				}
 			}
-		}
-		
-		for(int i = 0; i < grid.length; i++)
-		{
-			for(int j = 0; j < grid[0].length; j++)
+			
+			for(int i = 0; i < grid.length; i++)
 			{
-				if(grid[i][j] == -1)
+				for(int j = 0; j < grid[0].length; j++)
 				{
-					o.draw(this, (j)*g.getCellWidth(), i*g.getCellHeight(), g.getCellWidth(), g.getCellHeight());
-				}
-				else if(grid[i][j]==-2)
-				{
-					hole.draw(this, g.getCellWidth()*j, g.getCellHeight()*i, g.getCellWidth(), g.getCellHeight());
-				}
-				else if(grid[i][j]==3)
-				{
-					heal.draw(this, g.getCellWidth()*j, g.getCellHeight()*i, g.getCellWidth(), g.getCellHeight());
-				}
-				else if(grid[i][j]==4)
-				{
-					shield.draw(this, g.getCellWidth()*j, g.getCellHeight()*i, g.getCellWidth(), g.getCellHeight());
-				}
-				else if(grid[i][j]==5)
-				{
-					wb.draw(this, g.getCellWidth()*j, g.getCellHeight()*i, g.getCellWidth(), g.getCellHeight());
+					if(grid[i][j] == -1)
+						o.draw(this, (j)*g.getCellWidth(), i*g.getCellHeight(), g.getCellWidth(), g.getCellHeight());
+					else if(grid[i][j]==-2)
+						r.draw(this, g.getCellWidth()*j, g.getCellHeight()*i, g.getCellWidth(), g.getCellHeight());
+					else if(grid[i][j]==-3)
+						hole.draw(this, g.getCellWidth()*j, g.getCellHeight()*i, g.getCellWidth(), g.getCellHeight());
+					else if(grid[i][j]==3)
+						heal.draw(this, g.getCellWidth()*j, g.getCellHeight()*i, g.getCellWidth(), g.getCellHeight());
+					else if(grid[i][j]==4)
+						shield.draw(this, g.getCellWidth()*j, g.getCellHeight()*i, g.getCellWidth(), g.getCellHeight());
+					else if(grid[i][j]==5)
+						wb.draw(this, g.getCellWidth()*j, g.getCellHeight()*i, g.getCellWidth(), g.getCellHeight());
 				}
 			}
 		}
 		
-		//usewater
-		if(g.hasBucket() && this.shiftPressed==true)
-		{
-			System.out.println("hahaahah");
-			if(grid[g.getpgLocX()][g.getpgLocY()-1]==-1)
-			{
-				grid[g.getpgLocX()][g.getpgLocY()-1]=0;
-				System.out.println("alalalalala");
-			}
-		}
-		
-		
+		this.textSize(10);
+		String s = "Help Mickey find Minnie in all of this\nChaos! Navigate through the grid and\npick up 6 collectables. Avoid the fire and\nrocks. If you land on a black hole, you\nwill be randomly transported to another\nplace. Once you get the collectables\nMinnie will appear and you have\nSAVED THE OTP!!";
+		this.text(s, 585, 100);
+			
 		//draws collectables box
 		this.stroke(0);
 		this.fill(255);
 		this.rect(585, 350, 200, 200);
 		this.fill(0);
-		this.text("Items Collected:", 625, 375);
+		this.textSize(20);
+		this.text("Items Collected:", 600, 375);
 		this.text(g.getNumCollected()+"/6", 675, 400);
 		if(g.getNumCollected()==6 && done == false)
 		{
@@ -287,17 +241,49 @@ public class DrawingSurface extends PApplet {
 			}
 		}
 		
-		//health system
-		int px = g.getpgLocX();
-		int py = g.getpgLocY();
-		int status = g.getStatus(px, py);
+		//timer
+		boolean timeLeft = t.isTimeUp();
+		if(timeLeft == false)
+		{
+			gameOver = true;
+		}
+		t.draw(this);
+
+		if (status == -3)
+		{
+			boolean hasMoved = false;
+			while(hasMoved == false)
+			{
+				int x = (int)(Math.random()*25);
+				int y = (int)(Math.random()*25);
+				if (grid[x][y] == 0)
+				{
+					g.setpgLoxX(x);
+					g.setpgLoxY(y);
+					
+					g.setPlayerX((x)*g.getCellWidth()-10);
+					g.setPlayerY(y*g.getCellHeight()-20);
+					
+					hasMoved = true;
+				}
+			}
+		}
+		
+		if(status == -1 || status == -2)
+		{
+			if(status == -1)
+			{
+				
+			}
+			gameOver = true;
+		}
 		
 		this.stroke(0);
 		h.draw(this, 585, 275, 200, 50);
 		boolean healthLeft = h.healthLeft();
 		if(healthLeft==false)
 		{
-			status = -1;
+			gameOver = true;
 		}
 		
 		if (status == 2)
@@ -305,64 +291,45 @@ public class DrawingSurface extends PApplet {
 			canMove = false;
 			this.fill(200);
 			this.stroke(200);
-			this.rect(200, 200, 400, 225);
+			this.rect(60, 210, 400, 225);
 			this.fill(0);
 			this.textSize(75);
-			this.text("YOU WIN!", 225, 275);
+			this.text("YOU WIN!", 70, 285);
 			this.fill(255, 0, 0);
-			this.rect(300, 300, 200, 100);
+			this.rect(110, 320, 300, 75);
 			this.fill(0);
-			this.textSize(40);
-			this.text("QUIT", 350, 360);
+			this.textSize(25);
+			this.text("Press Anywhere to Quit", 120, 370);
+			
+			this.text("Game Summary", 160, 290);
+			
+			
 			if (this.mousePressed)
 			{
-					System.exit(0);
+				System.exit(0);
 			}
 		}
-		else if (status == -1 || status == -2)
+		else if (gameOver)
 		{
 			canMove = false;
 			this.fill(200);
 			this.stroke(200);
-			this.rect(200, 200, 400, 225);
+			this.rect(60, 210, 400, 225);
 			this.fill(0);
 			this.textSize(75);
-			this.text("YOU LOSE!", 210, 275);
+			this.text("YOU LOSE!", 70, 285);
 			this.fill(255, 0, 0);
-			this.rect(300, 300, 200, 100);
+			this.rect(110, 320, 300, 75);
 			this.fill(0);
-			this.textSize(40);
-			this.text("QUIT", 350, 360);
+			this.textSize(25);
+			this.text("Press Anywhere to Quit", 120, 370);
+
 			if (this.mousePressed)
 			{
-					System.exit(0);
-			}
-		}
-		
-		if (timeLeft==false)
-		{
-			canMove = false;
-			this.fill(200);
-			this.stroke(200);
-			this.rect(200, 200, 400, 225);
-			this.fill(0);
-			this.textSize(75);
-			this.text("TIMES UP!", 210, 275);
-			this.fill(255, 0, 0);
-			this.rect(300, 300, 200, 100);
-			this.fill(0);
-			this.textSize(40);
-			this.text("QUIT", 350, 360);
-			if (this.mousePressed)
-			{
-				//if (mouseX >= 300 && mouseX <= 500 && mouseY >= 300 && mouseY <= 400)
-				//{
-					System.exit(0);
-				//}
+				System.exit(0);
 			}
 		}
 		popMatrix();
-		}
 	}
 
 	public void keyPressed() {
@@ -389,32 +356,6 @@ public class DrawingSurface extends PApplet {
 		    		g.setPlayerY((g.getPlayerY()+g.getCellHeight()));
 		    		g.setpgLoxY(g.getpgLocY()+1);
 		    }
-		    
-		    if (keyCode == KeyEvent.VK_D && g.getpgLoc2X()<g.getColumn()-1) 
-		    {	 
-		    		g.setPlayer2X(g.getPlayer2X()+g.getCellWidth());
-		    		g.setpgLoc2X(g.getpgLoc2X()+1);
-			}
-		    else if (keyCode == KeyEvent.VK_A && g.getpgLoc2X()>0)
-		    {
-		    		g.setPlayer2X((g.getPlayer2X()-g.getCellWidth()));
-		    		g.setpgLoc2X(g.getpgLoc2X()-1);
-		    }
-		    else if (keyCode == KeyEvent.VK_W && g.getpgLoc2Y() > 0)
-		    {
-		    		g.setPlayer2Y((g.getPlayer2Y()-g.getCellHeight()));
-		    		g.setpgLoc2Y(g.getpgLoc2Y()-1);
-		    }
-		    else if (keyCode == KeyEvent.VK_S && g.getpgLoc2Y()<g.getRow()-1)
-		    {
-		    		g.setPlayer2Y((g.getPlayer2Y()+g.getCellHeight()));
-		    		g.setpgLoc2Y(g.getpgLoc2Y()+1);
-		    }
-		    
-		    if (keyCode == KeyEvent.VK_SHIFT) 
-		    {
-		    		shiftPressed = true;
-		    }
 		}	
 	}
 
@@ -427,4 +368,3 @@ public class DrawingSurface extends PApplet {
 		return keys.contains(code);
 	}
 }
-
